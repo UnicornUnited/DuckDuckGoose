@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2017-10-05
 ### Added
 - The CI starter package.
+- Fleet and Flights Models ~Takito
 
 ### Changed
 
