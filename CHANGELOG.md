@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - The CI starter package.
 - Fleet and Flights Models ~Takito
+- A webhook to the server.
 
 ### Changed
 
