@@ -17,14 +17,14 @@ class Info extends Application
      * retrieve all.
      */
     public function fleet($id = ""){
-        $this->load->model('fleet');
+        $this->load->model('fleetModel');
         $data = null;
         if($id === "") {
-            $data = $this->fleet->all(); 
+            $data = $this->fleetModel->all(); 
             
         }
         else {
-            $data = $this->fleet->get($id);
+            $data = $this->fleetModel->get($id);
         }
         print_r(json_encode($data));
     }
@@ -35,14 +35,14 @@ class Info extends Application
      * retrieve all.
      */
     public function flights($id = ""){
-        $this->load->model('flights');
+        $this->load->model('flightModel');
         $data = null;
         if($id === "") {
-            $data = $this->flights->all(); 
+            $data = $this->flightModel->all(); 
             
         }
         else {
-            $data = $this->flights->get($id);
+            $data = $this->flightModel->get($id);
         }
         print_r(json_encode($data));
     }
