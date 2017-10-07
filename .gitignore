@@ -21,3 +21,6 @@ application/logs/*
 
 #ignore Mac files
 .DS_Store
+
+#Jetbrains IDE
+.idea/
