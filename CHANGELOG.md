@@ -24,6 +24,6 @@ All notable changes to this project will be documented in this file.
 - A webhook to the server.
 
 ### Changed
-
+- Renamed the models to avoid name conflicts with controllers. 
 
 ### Removed
