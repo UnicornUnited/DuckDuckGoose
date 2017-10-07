@@ -1,8 +1,15 @@
-{header}
-<table id="plane_{plane_id}">
+{template_header}
+<section id="plane_info" class="container">
+<table>
     <tbody>
         <tr>
-            <td>Id:</td>
+            <td colspan="2"><h1>Duck Duck Goose</h1></td>
+        </tr>
+        <tr>
+            <td colspan="2"><h2>Planes info</h2></td>
+        </tr>
+        <tr>
+            <td>Name:</td>
             <td>{id}</td>
         </tr>
         <tr>
@@ -15,4 +22,5 @@
         </tr>
     </tbody>
 </table>
-{footer}
+</section>
+{template_footer}

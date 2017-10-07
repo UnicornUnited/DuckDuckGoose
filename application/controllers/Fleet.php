@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Fleet extends Application
 {
-    private $template_filepath_header = '/header';//header template filepath
-    private $template_filepath_footer = '/footer';//footer template filepath
+    private $template_filepath_header = '/common/header';//header template filepath
+    private $template_filepath_footer = '/common/footer';//footer template filepath
     /**
      * Ctor
      */
@@ -42,6 +42,16 @@ class Fleet extends Application
         }
         $template_data = array('plane_items'=>$plane_items);
         
+        //add header template
+        $template_data['template_header'] = 
+                $this->parser->parse($this->template_filepath_header, 
+                        $template_data, true);
+        
+        //add footer template
+        $template_data['template_footer'] = 
+                $this->parser->parse($this->template_filepath_footer, 
+                        $template_data, true);
+        
         //parse the plane list template.
         $this->parser->parse('/fleet/plane_list', $template_data);
     }
@@ -63,12 +73,12 @@ class Fleet extends Application
         //add header template
         $template_data['template_header'] = 
                 $this->parser->parse($this->template_filepath_header, 
-                        $template_data);
+                        $template_data, true);
         
         //add footer template
-        $template_data['template_header'] = 
+        $template_data['template_footer'] = 
                 $this->parser->parse($this->template_filepath_footer, 
-                        $template_data);
+                        $template_data, true);
         
         //render this page
         $this->parser->parse('/fleet/plane_item', $template_data);
