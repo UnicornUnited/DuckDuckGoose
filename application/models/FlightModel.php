@@ -1,5 +1,5 @@
 <?php
-class Flights extends CI_Model
+class FlightsModel extends CI_Model
 {
 
     // The data is hardcoded to indicate the flights we've created.

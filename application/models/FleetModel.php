@@ -1,5 +1,5 @@
 <?php
-class Fleet extends CI_Model
+class FleetModel extends CI_Model
 {
 
     // The data is hardcoded to indicate the fleet we've selected.
