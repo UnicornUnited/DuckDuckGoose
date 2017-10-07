@@ -1,3 +1,4 @@
+{header}
 <table>
     <tbody>
         {plane_items}
@@ -8,3 +9,4 @@
         {/plane_items}
     </tbody>
 </table>
+{footer}

@@ -1,3 +1,3 @@
-<body>
+{header}
     {plane_list}
-</body>
+{footer}

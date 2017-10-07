@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Fleet extends Application
 {
+    private $template_filepath_header = '/header';//header template filepath
+    private $template_filepath_footer = '/footer';//footer template filepath
     /**
      * Ctor
      */
@@ -45,12 +47,30 @@ class Fleet extends Application
     }
 
     function plane($id=""){
+        //entry validation check
         if(empty($id)) {
             redirect('/fleet');
             return;
         }
         $template_data = $this->fleetModel->get($id);
+        //data validation check
+        if(count($template_data)===0){
+            redirect('/fleet');
+            return;
+        }
         $template_data['id'] = $template_data['key'];
+        
+        //add header template
+        $template_data['template_header'] = 
+                $this->parser->parse($this->template_filepath_header, 
+                        $template_data);
+        
+        //add footer template
+        $template_data['template_header'] = 
+                $this->parser->parse($this->template_filepath_footer, 
+                        $template_data);
+        
+        //render this page
         $this->parser->parse('/fleet/plane_item', $template_data);
     }
 }

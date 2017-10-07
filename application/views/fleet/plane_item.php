@@ -1,3 +1,4 @@
+{header}
 <table id="plane_{plane_id}">
     <tbody>
         <tr>
@@ -14,3 +15,4 @@
         </tr>
     </tbody>
 </table>
+{footer}
