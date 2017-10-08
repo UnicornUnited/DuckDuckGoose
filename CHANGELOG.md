@@ -13,6 +13,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0] - 2017-10-08
+### Changed
+- Updated FlightModel.php to include more attributes for each flight.(Teresa)
+- Updated style.css to modify appearance of Flights table.(Teresa)
+
+### Added
+- Flights controller to allow listing of the flight schedule and details.(Teresa)
+- flights view to format the flights details on webpage.(Teresa)
+
+
 ## [1.0.0] - 2017-10-07
 ### Added
  - Fleet feature which allows listing planes in the fleet and view plane detail.
