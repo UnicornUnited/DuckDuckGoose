@@ -17,11 +17,12 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated FlightModel.php to include more attributes for each flight.(Teresa)
 - Updated style.css to modify appearance of Flights table.(Teresa)
+- Welcome controller to display the homepage. 
 
 ### Added
 - Flights controller to allow listing of the flight schedule and details.(Teresa)
 - flights view to format the flights details on webpage.(Teresa)
-
+- View to display the homepage. 
 
 ## [1.0.0] - 2017-10-07
 ### Added
