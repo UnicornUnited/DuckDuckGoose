@@ -2,6 +2,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
+ * Links for the menubar.
+ */
+$config['menu_choices'] = array(
+    'menudata' => array(
+        array('name' => 'Homepage', 'link' => '/'),
+        array('name' => 'Flights', 'link' => '/flights'),
+        array('name' => 'Planes', 'link' => '/fleet'),
+        array('name' => 'About Us', 'link' => '/about'),
+        )
+    );
+
+/*
 |--------------------------------------------------------------------------
 | Base Site URL
 |--------------------------------------------------------------------------
