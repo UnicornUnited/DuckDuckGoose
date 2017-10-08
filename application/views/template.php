@@ -17,6 +17,7 @@
       </div>
     </header>
 
+    <!--The navigation bar. Contains links to other pages.-->
     <div id="nav">
     <nav class="navbar navbar-default navbar-static affix-top" role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -40,10 +41,13 @@
     </div>
     </nav>
   </div>
-        <div id="container">
-			{content}
-        </div>
+    
+    <!--Displays the content of the current view-->
+    <div id="container">
+        {content}
+    </div>
 
+    <!--Footer. Contains fake information about our fake airline-->
   <footer>
     <div class="container">
       <div class="row">

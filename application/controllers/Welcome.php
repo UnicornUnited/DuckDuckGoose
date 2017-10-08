@@ -19,19 +19,23 @@ class Welcome extends Application
      */
     public function index()
     {
+        //Get content from home view
         $this->data['pagebody'] = 'home';
         
+        //count and store the number of flights
         $this->load->model('flightModel');
         $flights = $this->flightModel->all();
         $numFlights = count($flights);
         
+        //count and store the number of planes in the fleet
         $this->load->model('fleetModel');
         $planes = $this->fleetModel->all();
         $numPlanes = count($planes);
         
+        //send the data to the view
         $source = array(1 => array('flights' => $numFlights, 'planes' => $numPlanes));
-        
         $this->data['airlineData'] = $source;
+        
         $this->render(); 
     }
 
