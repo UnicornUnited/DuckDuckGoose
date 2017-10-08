@@ -9,7 +9,7 @@
         </tr>
         <tr>
             <td>Name:</td>
-            <td>{id}</td>
+            <td>{key}</td>
         </tr>
         <tr>
             <td>Type:</td>

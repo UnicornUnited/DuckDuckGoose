@@ -32,6 +32,12 @@ class Application extends CI_Controller
 	 */
 	function render($template = 'template')
 	{
+            // Build the menubar
+            $this->data['menubar'] = $this->parser->parse('_menubar', $this->config->item('menu_choices'), true);
+
+            // Determine the URL this page was requested as
+            $this->data['origin'] = $this->uri->uri_string();
+            
 		$this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
 		$this->parser->parse('template', $this->data);
 	}
