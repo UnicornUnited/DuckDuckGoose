@@ -10,7 +10,7 @@
         {plane_items}
         <tr>
             <td>Name:</td>
-            <td>{link_view_plane}</td>
+            <td><a href="/fleet/plane/{key}">{key}</a></td>
         </tr>
         {/plane_items}
     </tbody>
