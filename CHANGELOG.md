@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated FlightModel.php to include more attributes for each flight.(Teresa)
 - Updated style.css to modify appearance of Flights table.(Teresa)
+- Added About page (Takito)
 
 ### Added
 - Flights controller to allow listing of the flight schedule and details.(Teresa)
