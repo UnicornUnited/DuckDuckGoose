@@ -15,11 +15,15 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.0] - 2017-10-08
 ### Changed
+- Updated MY_Controller to parse menu_choices.(Teresa)
+- Updated config/config with links for the menubar.(Teresa)
+- Updated template view with placeholder for menubar.(Teresa)
 - Updated FlightModel.php to include more attributes for each flight.(Teresa)
 - Updated style.css to modify appearance of Flights table.(Teresa)
 - Added About page (Takito)
 
 ### Added
+- _menubar view for menubar template.
 - Flights controller to allow listing of the flight schedule and details.(Teresa)
 - flights view to format the flights details on webpage.(Teresa)
 
