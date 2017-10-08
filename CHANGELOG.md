@@ -15,6 +15,9 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.0] - 2017-10-08
 ### Changed
+- Updated Fleet controller to work with menubar rendering.(Teresa)
+- Updated plane_list view use anchors.(Teresa)
+- Updated plane_item view to use appropriate placeholders.(Teresa)
 - Updated MY_Controller to parse menu_choices.(Teresa)
 - Updated config/config with links for the menubar.(Teresa)
 - Updated template view with placeholder for menubar.(Teresa)
