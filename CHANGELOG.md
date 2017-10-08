@@ -33,6 +33,7 @@ All notable changes to this project will be documented in this file.
 - flights view to format the flights details on webpage.(Teresa)
 - View to display the homepage. (Taryn)
 - Added About page (Takito)
+- Comments (Taryn)
 
 ## [1.0.0] - 2017-10-07
 ### Added
