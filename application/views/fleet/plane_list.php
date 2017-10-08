@@ -1,4 +1,3 @@
-{template_header}
 <section id="fleet" class="container">
 <table>
     <tbody>
@@ -17,4 +16,3 @@
     </tbody>
 </table>
 </section>
-{template_footer}

@@ -6,6 +6,7 @@ class Fleet extends Application
 {
     private $template_filepath_header = '/common/header';//header template filepath
     private $template_filepath_footer = '/common/footer';//footer template filepath
+    private $template_filepath_common = '/template';//common template filepath
     /**
      * Ctor
      */
@@ -42,18 +43,13 @@ class Fleet extends Application
         }
         $template_data = array('plane_items'=>$plane_items);
         
-        //add header template
-        $template_data['template_header'] = 
-                $this->parser->parse($this->template_filepath_header, 
-                        $template_data, true);
-        
-        //add footer template
-        $template_data['template_footer'] = 
-                $this->parser->parse($this->template_filepath_footer, 
-                        $template_data, true);
-        
         //parse the plane list template.
-        $this->parser->parse('/fleet/plane_list', $template_data);
+        $template_data = 
+                $this->parser->parse('/fleet/plane_list', $template_data, true);
+        
+        //parse it to the template with common information, then display
+        $template_data = array('content'=>$template_data);
+        $this->parser->parse($this->template_filepath_common, $template_data);
     }
 
     function plane($id=""){
@@ -70,17 +66,11 @@ class Fleet extends Application
         }
         $template_data['id'] = $template_data['key'];
         
-        //add header template
-        $template_data['template_header'] = 
-                $this->parser->parse($this->template_filepath_header, 
-                        $template_data, true);
+        $template_data = 
+                $this->parser->parse('/fleet/plane_item', $template_data, true);
         
-        //add footer template
-        $template_data['template_footer'] = 
-                $this->parser->parse($this->template_filepath_footer, 
-                        $template_data, true);
-        
-        //render this page
-        $this->parser->parse('/fleet/plane_item', $template_data);
+        //parse it to the template with common information, then render this page
+        $template_data = array('content'=>$template_data);
+        $this->parser->parse($this->template_filepath_common, $template_data);
     }
 }

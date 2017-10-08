@@ -1,4 +1,3 @@
-{template_header}
 <section id="plane_info" class="container">
 <table>
     <tbody>
@@ -23,4 +22,3 @@
     </tbody>
 </table>
 </section>
-{template_footer}
