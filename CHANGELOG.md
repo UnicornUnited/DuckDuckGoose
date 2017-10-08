@@ -16,14 +16,14 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2017-10-06
 ### Added
  - Info Controller to provide RESTish services for Fleet and Flights models.
+ 
+### Changed
+- Renamed the models to avoid name conflicts with controllers. 
+- Made the template file into a custom template.
+
 
 ## [1.0.0] - 2017-10-05
 ### Added
 - The CI starter package.
 - Fleet and Flights Models ~Takito
 - A webhook to the server.
-
-### Changed
-- Renamed the models to avoid name conflicts with controllers. 
-
-### Removed
