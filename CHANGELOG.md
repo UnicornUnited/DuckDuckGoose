@@ -23,14 +23,16 @@ All notable changes to this project will be documented in this file.
 - Updated template view with placeholder for menubar.(Teresa)
 - Updated FlightModel.php to include more attributes for each flight.(Teresa)
 - Updated style.css to modify appearance of Flights table.(Teresa)
-- Added About page (Takito)
-- Our OCD friend needed me to clean my spelling mistakes. (Takito)
+- Welcome controller to display the homepage. (Taryn)
+- Cleaned up spelling mistakes. (Takito)
+
 
 ### Added
 - _menubar view for menubar template.
 - Flights controller to allow listing of the flight schedule and details.(Teresa)
 - flights view to format the flights details on webpage.(Teresa)
-
+- View to display the homepage. (Taryn)
+- Added About page (Takito)
 
 ## [1.0.0] - 2017-10-07
 ### Added
