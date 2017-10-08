@@ -13,6 +13,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0] - 2017-10-08
+### Changed
+- Updated FlightModel.php to include more attributes for each flight.
+
 ## [1.0.0] - 2017-10-07
 ### Added
  - Fleet feature which allows listing planes in the fleet and view plane detail.
