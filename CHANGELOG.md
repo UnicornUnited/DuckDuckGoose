@@ -11,7 +11,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+# [latest version 1.0.0]
+
+## [2.0.0] - 2017-11-09
+### Added
+ - Wacky model to retrieve shared data from wacky server.
+
+## [version 1.0.0 released] - 2017-10-08
 
 ## [1.0.0] - 2017-10-08
 ### Changed
