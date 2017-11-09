@@ -14,8 +14,12 @@ All notable changes to this project will be documented in this file.
 # [latest version 1.0.0]
 
 ## [2.0.0] - 2017-11-09
+### Changed
+ - Add user role selection to the menu bar.
+ - Display user role on page title and an indicator on the role drop-down.
 ### Added
  - Wacky model to retrieve shared data from wacky server.
+ - User role controller.
 
 ## [version 1.0.0 released] - 2017-10-08
 
