@@ -28,24 +28,22 @@ class Fleet extends Application
         // Load the FleetModel
         $this->load->model('fleetModel');
         // Select the desired view for the list of planes
-        $this->data['pagebody'] = 'fleet/plane_list';
+        $this->data['pagebody'] = 'fleet';
         // Retrieve the fleet data
         $source = $this->fleetModel->all();
-        
         $this->data['plane_items'] = $source;
         $this->render();
      
     }
 
-    function plane($key)
+    public function plane($key)
     {
         // Load the FleetModel
         $this->load->model('fleetModel');
         // Select the desired view for the plane details
-        $this->data['pagebody'] = 'fleet/plane_item';
+        $this->data['pagebody'] = 'plane';
         // Retrieve just the desired plane
-        $source = $this->fleetModel->get($key);
-        
+        $source = (array)$this->fleetModel->get($key);
         $this->data = array_merge($this->data, (array) $source);
         $this->render();
     }
