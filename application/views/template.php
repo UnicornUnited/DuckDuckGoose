@@ -9,11 +9,13 @@
   </head>
   <body>
     <header>
-      <div class="container">
-        <center>
-            <h1>Welcome to Goose Airlines</h1>
-            <h3>We hope that you have a pleasant flight experience.</h3>
-        </center>
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-xs-12 text-center">
+                  <h1>Welcome to Goose Airlines</h1>
+                  <h3>We hope that you have a pleasant flight experience.</h3>
+              </div>
+          </div>
       </div>
     </header>
 

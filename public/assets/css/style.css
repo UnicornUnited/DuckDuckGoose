@@ -6,18 +6,19 @@ h1, h2, h3, h4, h5, h6, p {
 	font-family: 'Duru Sans', Open Sans Light;
 }
 header {
-	background:url(../img/airplane.jpg) no-repeat;
-	height:700px;
+	background: #333333 url(../img/airplane.jpg) no-repeat center;
+	height:400px;
 	width:100%;
-	padding-top:50px;
+	padding-top: 50px;
 	color: #fff;
 }
 header h1 {
 	font-size: 60px;
-	margin-top: 120px;
+	margin-top: 60px;
+	margin-bottom: auto;
 }
 .skroler {
-	margin-top: 80px;
+	margin-top: 70px;
 	font-size: 18px;
 	border: 1px solid #fff;
 	width: 43px;

@@ -16,6 +16,11 @@ All notable changes to this project will be documented in this file.
 ## [2.0.0] - 2017-11-09
 ### Added
  - Wacky model to retrieve shared data from wacky server.
+ 
+## [2.0.0] - 2017-11-09
+### Changed/Added
+ - Fixed layouts for consistent view on each page.
+ - Fixed header background picture to be responsive and to resize correctly.
 
 ## [version 1.0.0 released] - 2017-10-08
 
