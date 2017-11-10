@@ -22,5 +22,3 @@ class About extends Application
         $this->render();
     }
 }
-?>
-

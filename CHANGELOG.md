@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 ## Added
 ### Controllers
  - User role controller.
+ - Removed PHP closing tag to avoid session php error. No need to close tags
 ### Models
  - Wacky model to retrieve shared data from wacky server.
  - Add CSV model that supports CSV data type.
