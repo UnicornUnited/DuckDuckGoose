@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ## Added
 ### Models
  - Wacky model to retrieve shared data from wacky server.
+ - Add CSV model that supports CSV data type.
 
 # [version 1.0.0 released] - 2017-10-08
 
