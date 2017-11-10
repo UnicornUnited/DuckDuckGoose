@@ -17,6 +17,8 @@ All notable changes to this project will be documented in this file.
 ## Changed
  - Add user role selection to the menu bar.
  - Display user role on page title and an indicator on the role drop-down.
+ - Modify page views for data mapping from CSV.
+ - Modify flight and fleet models to extend from an appropriate CSV model.
 ## Added
 ### Controllers
  - User role controller.

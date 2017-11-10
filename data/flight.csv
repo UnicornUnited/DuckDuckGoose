@@ -1,0 +1,13 @@
+id,plane,depart,depart_airport,depart_time,arrival,arrival_airport,arrival_time
+G100,Grand Caravan EX,YGE,Golden Airport,08:00,ZMH,South Cariboo Regional Airport,09:00
+G200,Grand Caravan EX,ZMH,South Cariboo Regional Airport,09:30,YGE,Golden Airport,10:30
+G300,Grand Caravan EX,YGE,Golden Airport,11:00,ZMH,South Cariboo Regional Airport,12:00
+G400,Grand Caravan EX,ZMH,South Cariboo Regional Airport,12:30,YGE,Golden Airport,13:30
+G500,PC-12 NG,YGE,Golden Airport,08:30,YYJ,Victoria International Airport,10:00
+G600,PC-12 NG,YYJ,Victoria International Airport,10:30,YGE,Golden Airport,12:00
+G700,PC-12 NG,YGE,Golden Airport,13:00,YYJ,Victoria International Airport,14:30
+G800,PC-12 NG,YYJ,Victoria International Airport,15:00,YGE,Golden Airport,16:30
+G900,Phenom 100,YGE,Golden Airport,17:00,YVE,Vernon Regional Airport,17:30
+G1000,Phenom 100,YVE,Vernon Regional Airport,18:00,YGE,Golden Airport,18:30
+G1100,Phenom 100,YGE,Golden Airport,19:00,YVE,Vernon Regional Airport,19:30
+G1200,Phenom 100,YVE,Vernon Regional Airport,20:00,YGE,Golden Airport,20:30

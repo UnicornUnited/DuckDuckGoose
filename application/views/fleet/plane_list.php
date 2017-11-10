@@ -12,7 +12,7 @@
                 {plane_items}
                 <tr>
                     <td>Name:</td>
-                    <td><a href="/fleet/plane/{key}">{key}</a></td>
+                    <td><a href="/fleet/plane/{id}">{name}</a></td>
                 </tr>
                 {/plane_items}
                 </tbody>

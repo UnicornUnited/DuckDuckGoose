@@ -10,7 +10,7 @@
             </tr>
             {flightdata}
             <tr>
-                <td title="{plane}">{key}</td>
+                <td title="{plane}">{id}</td>
                 <td title="{depart_airport}">{depart}</td>
                 <td>{depart_time}</td>
                 <td title="{arrival_airport}">{arrival}</td>
