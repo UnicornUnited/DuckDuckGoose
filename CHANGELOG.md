@@ -14,7 +14,12 @@ All notable changes to this project will be documented in this file.
 # [latest stable version 1.0.0]
 
 ## [2.0.0] - 2017-11-09
+## Changed
+ - Add user role selection to the menu bar.
+ - Display user role on page title and an indicator on the role drop-down.
 ## Added
+### Controllers
+ - User role controller.
 ### Models
  - Wacky model to retrieve shared data from wacky server.
  - Add CSV model that supports CSV data type.
