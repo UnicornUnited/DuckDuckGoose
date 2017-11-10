@@ -95,8 +95,8 @@
     <p>Copright by @andreyyann 2014, All right reserved.</p>
   </footer>
 
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
     <script>
       $(function() {
   $('a[href*=#]:not([href=#])').click(function() {
