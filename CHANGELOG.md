@@ -13,6 +13,10 @@ All notable changes to this project will be documented in this file.
 
 # [latest stable version 1.0.0]
 
+## [2.0.0] - 2017-11-10
+## Changed
+ - Rearrange fleet and plane view files.
+
 ## [2.0.0] - 2017-11-09
 ## Changed
  - Add user role selection to the menu bar.
