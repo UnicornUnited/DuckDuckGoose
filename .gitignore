@@ -24,3 +24,11 @@ application/logs/*
 
 #Jetbrains IDE
 .idea/
+
+# tmp folder
+/tmp/
+
+#PHP Composer if it's put inside the project
+composer.phar
+composer.exe
+composer.lock
