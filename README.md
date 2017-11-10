@@ -1,21 +1,14 @@
-## CodeIgniter3.1-starter3
+## DuckDuckGoose
 
-This project can be used as a starter for a webapp built with CodeIgniter 3.1.
+A simple webapp for displaying flight information for the fictional 
+"Goose Airlines," operating out of BC.
 
-This starter builds on [CodeIgniter3.1-starter2](https://github.com/jedi-academy/CodeIgniter3.1-starter2),
-adding a base model with CRUD methods.
+#Version 1
 
-**controllers/Welcome.php** has been modified to set the name of the desired
-view file as a *data* parameter, and to then invoke the inherited *render*
-method to trigger presentation.
+Enabled the user to view planes in the Goose Airline fleet, 
+and the currently available flights. Also gave some information about
+the members of the project team. 
 
-A view template is provided. The CSS has been extracted to an appropriate file
-in the public folder. Styling could be improved by using a CSS framework, like
-Bootstrap.
+#Version 2
 
-The **application/config/autoload.php** configuration has been modified
-to preload the template parser library and the url helper.
-
-Configure your web server or virtual host so that your project's
-document root maps to this **public** folder inside your project.
-
+In progress..
