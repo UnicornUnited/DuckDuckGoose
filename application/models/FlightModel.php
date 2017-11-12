@@ -10,4 +10,21 @@ class FlightModel extends CSV_Model
     {
         parent::__construct(APPPATH . DATAPATH.'flight.csv', 'id');
     }
+    
+    /**
+     * Save an entity to data file
+     * @param type $entity
+     */
+    public function saveFlight($entity){
+        
+    }
+    
+    /**
+     * Save a collection of entity to data file
+     * @param type $collection an array of entity
+     */
+    public function saveFlightCollection($collection){
+        
+    }
+    
 }
