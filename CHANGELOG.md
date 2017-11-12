@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 ### Models
  - Entity Model for base class of entities.
  - Flight.php use as base class for all flight instances.
+ - Plane.php use as base class for all plane instances.
 
 ## [2.0.0] - 2017-11-10
 ## Changed
