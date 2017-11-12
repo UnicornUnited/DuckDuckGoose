@@ -10,6 +10,8 @@
                         <th>Arrive Time</th>
                     </tr>
                     {flightdata}
+<!--                    The Idea is that the next block can trigger a function (call it update) that uses all the data and-->
+<!--                    updates the CSV file.-->
                     <tr>
                         <td title="{plane}"><input type="text" value="{id}"></td>
                         <td title="{depart_airport}"><input type="text" value="{depart_airport}"></td>

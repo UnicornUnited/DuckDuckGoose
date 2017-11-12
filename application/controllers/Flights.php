@@ -41,13 +41,12 @@ class Flights extends Application
             $this->load->model('flightModel');
             $this->data['pagebody'] = 'adminflights';
             $source = $this->flightModel->all();
-            print_r($source);
             $this->data['flightdata'] = $source;
             $this->render();
         }
     }
 
-    //MY UPDATE FUNCTION DIDN'T WANT TO WORK :(
+    //MY UPDATE FUNCTION DIDN'T WANT TO WORK. If disabled it for further debugging :(
 //    public function update($id = null, $departAirport = null, $depart_time = null, $arrival = null, $arrival_time = null)
 //    {
 //        //If any of the fields are left empty don't do anything and return to flights page

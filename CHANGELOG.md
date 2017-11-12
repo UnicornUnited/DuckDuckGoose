@@ -15,12 +15,18 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.0] - 2017-11-11
 ## Changed
+ - Changes were made to the flights view to maintaining consistency in both mobile and desktop mode
 
 ## Added
 ### Models
  - Entity Model for base class of entities.
  - Flight.php use as base class for all flight instances.
  - Plane.php use as base class for all plane instances.
+### Controllers
+ - Added functionality to Flight controller to allow Admin to make changes to flight data
+ 
+### Views
+ - Created adminflights page which renders additional functionalities to the admin
 
 ## [2.0.0] - 2017-11-10
 ## Changed
