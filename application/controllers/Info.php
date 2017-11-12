@@ -12,13 +12,21 @@ class Info extends Application
     }
     
     /**
+     * This service controller does not provide anything by default. Redirect to
+     * home.
+     */
+    public function index(){
+        redirect('/');
+    }
+    
+    /**
      * Return info for fleet.
      * @param type string $id specifies a plane id to load. leave it blank to 
      * retrieve all.
      */
     public function fleet($id = ""){
         $this->load->model('fleetModel');
-        $data = null;
+        $data = NULL;
         if($id === "") {
             $data = $this->fleetModel->all(); 
             
@@ -26,7 +34,7 @@ class Info extends Application
         else {
             $data = $this->fleetModel->get($id);
         }
-        print_r(json_encode($data));
+        echo json_encode($data, JSON_PRETTY_PRINT);
     }
     
     /**
@@ -36,7 +44,7 @@ class Info extends Application
      */
     public function flights($id = ""){
         $this->load->model('flightModel');
-        $data = null;
+        $data = NULL;
         if($id === "") {
             $data = $this->flightModel->all(); 
             
@@ -44,8 +52,7 @@ class Info extends Application
         else {
             $data = $this->flightModel->get($id);
         }
-        print_r(json_encode($data));
+        echo json_encode($data, JSON_PRETTY_PRINT);
     }
 }
 ?>
-
