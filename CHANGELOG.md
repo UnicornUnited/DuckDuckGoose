@@ -13,6 +13,14 @@ All notable changes to this project will be documented in this file.
 
 # [latest stable version 1.0.0]
 
+## [2.0.0] - 2017-11-11
+## Changed
+
+## Added
+### Models
+ - Entity Model for base class of entities.
+ - Flight.php use as base class for all flight instances.
+
 ## [2.0.0] - 2017-11-10
 ## Changed
  - Rearrange fleet and plane view files.
