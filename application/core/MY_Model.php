@@ -356,8 +356,11 @@ class MY_Model2 extends MY_Model {
 
 }
 
+
 // Include any other persistence implementations, so that they can be used
 // as base models for any in a webapp.
 
 include_once 'Memory_Model.php';// In-memory only
 include_once 'CSV_Model.php';	// CSV persisted
+include_once 'Entity.php';
+
