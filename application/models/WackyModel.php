@@ -5,6 +5,8 @@
  */
 class WackyModel extends CI_Model
 {
+    private $my_airport_ids = array('YGE', 'ZMH', 'YYJ', 'YVE');
+    private $my_base_airport_id = 'YGE';
 
     // Constructor
     public function __construct()
@@ -52,6 +54,26 @@ class WackyModel extends CI_Model
     }
     
     /**
+     * An alias of airports($id)
+     * @param type $id
+     * @return type
+     */
+    public function getAirport($id){
+        return $this->airports($id);
+    }
+    
+    public function listMyAirports(){
+        $all = $this->airports();
+        $my = array();
+        foreach ($all as $key => $airport) {
+            if(in_array($airport['id'], $this->my_airport_ids)){
+                $my[] = $airport;
+            }
+        }
+        return $my;
+    }
+    
+    /**
      * return an array of airplanes data. Retrieve all by default unless a given
      * airplane name is given.
      * @param type $name a given airplane name to retrieve
@@ -69,6 +91,15 @@ class WackyModel extends CI_Model
     }
     
     /**
+     * An alias of airplanes($id)
+     * @param type $id
+     * @return type
+     */
+    public function getPlane($id){
+        return $this->airplanes($id);
+    }
+    
+    /**
      * return an array of regions data. Retrieve all by default unless a given
      * region name is given.
      * @param type $name a given region name to retrieve
@@ -83,6 +114,13 @@ class WackyModel extends CI_Model
                 return [];
         }
         return $data;
+    }
+    
+    /**
+     * An alias of regions() that returns all regions.
+     */
+    public function listRegion(){
+        return $this->regions();
     }
 
 }
