@@ -81,11 +81,13 @@ class Fleet extends Application
     {
         // Load the FleetModel
         $this->load->model('fleetModel');
+        $this->load->model('plane');
         if ($id == null)
             redirect ('/fleet');
-        $plane = $this->fleetModel->get($id);
-        //$rec = $this->fleetModel->get($id);
-        //$plane = new Plane($rec);
+        //$plane = $this->fleetModel->get($id);
+        $rec = (array)$this->fleetModel->get($id);
+        $plane = new Plane($rec);
+ 
         $this->session->set_userdata('plane', $plane);
         $this->showit();
     }
@@ -97,10 +99,11 @@ class Fleet extends Application
         $this->load->helper('form');
         $plane = $this->session->userdata('plane');
         $this->data['id'] = $plane->id;
-
+       
         // if no errors, pass an empty message
-        if ( ! isset($this->data['error']))
+        if (!isset($this->data['error'])) {
             $this->data['error'] = '';
+        }
 
         // Still need to edit this
         $fields = array(
@@ -117,23 +120,24 @@ class Fleet extends Application
     public function submit()
     {
         $this->load->model('fleetModel');
+        $this->load->model('plane');
         
         // Setup for validation
         $this->load->library('form_validation');
         $this->form_validation->set_rules($this->fleetModel->rules());
         
         // Retrieve & update data transfer buffer
-        $plane = (array) $this->session->userdata('plane');
-        $plane = array_merge($plane, $this->input->post());
-        $plane = (object) $plane;
-        $this->session->set_userdata('plane', (object) $plane);
+        $plane = unserialize( (serialize($this->session->userdata('plane'))));
+        $input = $this->input->post();
+        $plane->model_id = $input['model_id'];
+        $this->session->set_userdata('plane', $plane);
         
         // Validate plane
         if ($this->form_validation->run())
         {   
             if(empty($plane->id)){
-                //$plane->id = $this->fleetModel->generateNewId();
-                $this->fleetModel->saveFleet($plane);
+                
+                $plane->id = $this->fleetModel->saveFleet($plane);
                 $this->alert('New Plane Added', 'success');
             } else 
             {
@@ -147,18 +151,24 @@ class Fleet extends Application
         $this->showit();
     }
     
-    function cancel()
+    public function cancel()
     {
         $this->session->unset_userdata('plane');
         redirect('/fleet');
     }
     
-    function delete()
+    public function delete()
     {
-        $dto = $this->session->userdata('plane');
-        $plane = $this->fleetModel->get($dto->id);
-        $this->fleetModel->deleteFleet($plane->id);
+        // Load Models
+        $this->load->model('fleetModel');
+        $this->load->model('plane');
+        
+        // Yes, it is very hacky.
+        $plane = unserialize((serialize($this->session->userdata('plane'))));
+        
+        $this->fleetModel->deleteFleet($plane);
         $this->session->unset_userdata('plane');
+        
         redirect('/fleet');
     }
     
@@ -168,6 +178,7 @@ class Fleet extends Application
         $this->data['error'] = heading($message,3);
     }
     
+    // Retrieves all the Plane Models
     private function model_id()
     {
         $this->load->model('wackyModel');
