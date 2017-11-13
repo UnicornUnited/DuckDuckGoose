@@ -1,4 +1,4 @@
-id,name,type,speed
-1,caravan,Grand Caravan Ex,340
-2,pc12ng,PC-12 NG,500
-3,phenom100,Phenom 100,704
+id,model_id
+1,caravan
+2,pc12ng
+3,phenom100

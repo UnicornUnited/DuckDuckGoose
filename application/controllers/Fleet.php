@@ -25,10 +25,21 @@ class Fleet extends Application
      */
     public function index()
     {
+        $role = $this->session->userdata('userrole');
+        
         // Load the FleetModel
         $this->load->model('fleetModel');
+        // Load the Plane Entity Model
+        $this->load->model('plane');
         // Select the desired view for the list of planes
-        $this->data['pagebody'] = 'fleet';
+        
+        if ($role == ROLE_ADMIN) 
+        {
+            $this->data['pagebody'] = 'fleetedit';
+        } else
+        {
+            $this->data['pagebody'] = 'fleet';
+        }
         // Retrieve the fleet data
         $source = $this->fleetModel->all();
         $this->data['plane_items'] = $source;
@@ -40,11 +51,137 @@ class Fleet extends Application
     {
         // Load the FleetModel
         $this->load->model('fleetModel');
+        // Load the WackyModel
+        $this->load->model('wackyModel');
         // Select the desired view for the plane details
         $this->data['pagebody'] = 'plane';
         // Retrieve just the desired plane
         $source = (array)$this->fleetModel->get($key);
+        
+        $detail = $this->wackyModel->getPlane($source['model_id']);
+        
+        $source['type'] = $detail['model'];
+        $source['speed'] = $detail['cruise'] . ' kph';
+        
         $this->data = array_merge($this->data, (array) $source);
         $this->render();
+    }
+    
+    //Initiate adding a new plane
+    public function add()
+    {
+        $this->load->model('plane');
+        $plane = new Plane();
+        $this->session->set_userdata('plane', $plane);
+        $this->showit();
+    }
+    
+    //Initiate editing of a plane
+    public function edit($id = null)
+    {
+        // Load the FleetModel
+        $this->load->model('fleetModel');
+        if ($id == null)
+            redirect ('/fleet');
+        $plane = $this->fleetModel->get($id);
+        //$rec = $this->fleetModel->get($id);
+        //$plane = new Plane($rec);
+        $this->session->set_userdata('plane', $plane);
+        $this->showit();
+    }
+    
+    //Render the current DTO
+    private function showit()
+    {
+        $this->load->model('plane');
+        $this->load->helper('form');
+        $plane = $this->session->userdata('plane');
+        $this->data['id'] = $plane->id;
+
+        // if no errors, pass an empty message
+        if ( ! isset($this->data['error']))
+            $this->data['error'] = '';
+
+        // Still need to edit this
+        $fields = array(
+            'fid'       => form_label('Model Id') . form_dropdown( 'model_id', $this->model_id(), $plane->model_id),
+            'zsubmit'   => form_submit('submit', 'Update Plane'),
+        );
+        $this->data = array_merge($this->data, $fields);
+
+        $this->data['pagebody'] = 'planeedit';
+        $this->render();
+    }
+    
+    // Handle Form Submission
+    public function submit()
+    {
+        $this->load->model('fleetModel');
+        
+        // Setup for validation
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules($this->fleetModel->rules());
+        
+        // Retrieve & update data transfer buffer
+        $plane = (array) $this->session->userdata('plane');
+        $plane = array_merge($plane, $this->input->post());
+        $plane = (object) $plane;
+        $this->session->set_userdata('plane', (object) $plane);
+        
+        // Validate plane
+        if ($this->form_validation->run())
+        {   
+            if(empty($plane->id)){
+                //$plane->id = $this->fleetModel->generateNewId();
+                $this->fleetModel->saveFleet($plane);
+                $this->alert('New Plane Added', 'success');
+            } else 
+            {
+                $this->fleetModel->saveFleet($plane);
+                $this->alert('Plane ' . $plane->id . ' Updated', 'success');
+            }
+        } else
+        {
+            $this->alert('<strong>Validation errors!<strong><br>' . validation_errors(), 'danger');
+        }
+        $this->showit();
+    }
+    
+    function cancel()
+    {
+        $this->session->unset_userdata('plane');
+        redirect('/fleet');
+    }
+    
+    function delete()
+    {
+        $dto = $this->session->userdata('plane');
+        $plane = $this->fleetModel->get($dto->id);
+        $this->fleetModel->deleteFleet($plane->id);
+        $this->session->unset_userdata('plane');
+        redirect('/fleet');
+    }
+    
+    // build a suitable error mesage
+    private function alert($message) {
+        $this->load->helper('html');        
+        $this->data['error'] = heading($message,3);
+    }
+    
+    private function model_id()
+    {
+        $this->load->model('wackyModel');
+        $planes = $this->wackyModel->airplanes();
+        $model_id = array();
+        
+        
+        
+        foreach ($planes as $plane)
+        {
+            
+            $model_id[$plane['id']] = $plane['id'];
+        }
+        
+        return $model_id;
     }
 }

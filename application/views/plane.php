@@ -4,11 +4,11 @@
             <table>
                 <tbody>
                     <tr>
-                        <td colspan="2"><h2>Planes info</h2></td>
+                        <td colspan="2"><h2>Plane Info</h2></td>
                     </tr>
                     <tr>
                         <td>Name:</td>
-                        <td>{name}</td>
+                        <td>{model_id}</td>
                     </tr>
                     <tr>
                         <td>Type:</td>

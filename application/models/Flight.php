@@ -6,12 +6,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * The Flight entity class. The base class of all flight instances.
  */
 class Flight extends Entity {
-    private $id = NULL;
-    private $plane = NULL;
-    private $depart_time = NULL;
-    private $depart = NULL;
-    private $arrive_time = NULL;
-    private $arrive = NULL;
+    protected $id = NULL;
+    protected $plane = NULL;
+    protected $depart_time = NULL;
+    protected $depart = NULL;
+    protected $arrive_time = NULL;
+    protected $arrive = NULL;
     
     /**
      * Sets Flight Id.
@@ -59,6 +59,22 @@ class Flight extends Entity {
      */
     public function setArriveTime($value) {
         $this->arrive_time = $value;
+    }
+    
+    /**
+     * return an array format representation of this entity
+     */
+    public function toArray(){
+        return array(
+            'id'                    => $this->id,
+            'plane'                 => $this->plane,
+            'depart'                => $this->depart,
+            'depart_airport'        => $this->depart_airport,
+            'depart_time'           => $this->depart_time,
+            'arrival'               => $this->arrival,
+            'arrival_airport'       => $this->arrival_airport,
+            'arrival_time'          => $this->arrival_time,
+        );
     }
 }
 
