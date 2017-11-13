@@ -20,6 +20,18 @@ class FlightModel extends CSV_Model
     }
     
     /**
+     * override the parent functions to return array instead of object
+     */
+    public function all() {
+        $records = parent::all();
+        $resource = array();
+        foreach ($records as $key => $record) {
+            $resource[$key] = (array)$record;
+        }
+        return $resource;
+    }
+    
+    /**
      * Save an entity to data file
      * @param type $entity an entity to be save to the data file
      */
@@ -73,6 +85,18 @@ class FlightModel extends CSV_Model
         }
         $this->delete($entity->id);
         return $this->get($entity->id) === NULL;
+    }
+    
+    /**
+     * A set of rules for form validation.
+     */
+    public function formRules(){
+        $config = array(
+                ['field' => 'id', 'label' => 'Flight ID', 'rules' => 'alpha_numeric|exact_length[5]'],
+                ['field' => 'depart', 'label' => 'Departure Airport', 'rules' => 'alpha|exact_length[3]'],
+                ['field' => 'arrive', 'label' => 'Arrival Airport', 'rules' => 'alpha|exact_length[3]'],
+            );
+        return $config;
     }
     
 }

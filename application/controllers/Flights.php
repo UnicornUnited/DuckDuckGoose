@@ -10,6 +10,9 @@ class Flights extends Application
      */
     function __construct() {
         parent::__construct();
+        $this->load->model('flightModel');
+        $this->load->model('flight');
+        $this->load->model('wackyModel');
     }
         
     /**
@@ -26,78 +29,130 @@ class Flights extends Application
      */
     public function index()
     {
+        $this->load->helper('form');
         //What role am I calling?
         $role = $this->session->userdata('userrole');
 
         if ($role == ROLE_ADMIN){
-            $this->load->model('flightModel');
+            
             $this->data['pagebody'] = 'adminflights';
             $source = $this->flightModel->all();
+            //list all planes
+            $planes = $this->wackyModel->airplanes();
+            //list all airports
+            $airports_raw = $this->wackyModel->listMyAirports();
+            //restructure the airport by key
+            $airports = array();
+            foreach ($airports_raw as $airport) {
+                $airports[$airport['id']] = $airport;
+            }
+            
+            //create dropdown options
+            $plane_options = array();
+            foreach ($planes as $plane) {
+                $plane_options[$plane['id']] = $plane['model'];
+            }
+            
+            $airport_options = array();
+            foreach ($airports as $airport) {
+                $airport_options[$airport['id']] = $airport['airport'];
+            }
+            
+//            var_dump($source);
+            //fill the source with additional data retrieving from wacky
+            foreach ($source as $key => $flight) {
+                //fill the airport name
+                $source[$key]['depart_airport'] = $airports[$flight['depart']]['airport'];
+
+                $source[$key]['arriv_airport'] = $airports[$flight['arrive']]['airport'];
+                
+                //create a form dropdown for plane for each flight
+                $source[$key]['plane_selection'] = form_dropdown('model_id', $plane_options, $flight['model_id']);
+                
+                //create a form dropdown for departure for each flight
+                $source[$key]['depart_selection'] = form_dropdown('depart', $airport_options, $flight['depart']);
+                
+                //create a form dropdown for arrival for each flight
+                $source[$key]['arrive_selection'] = form_dropdown('arrive', $airport_options, $flight['arrive']);
+            }
+            
+            $this->data['add_plane_selection'] = form_dropdown('model_id', $plane_options, "");
+            $this->data['add_depart_selection'] = form_dropdown('depart', $airport_options, "");
+            $this->data['add_arrive_selection'] = form_dropdown('arrive', $airport_options, "");
+
             $this->data['flightdata'] = $source;
             $this->render();
         } else {
             //Will Render this page when user is explicitly (or not)
             // selected as guest
-            $this->load->model('flightModel');
+            
             $this->data['pagebody'] = 'flights';
             $source = $this->flightModel->all();
+            //list all planes
+            $planes_raw = $this->wackyModel->airplanes();
+            $planes = array();
+            foreach ($planes_raw as $plane) {
+                $planes[$plane['id']] = $plane['model'];
+            }
+            //list all airports
+            $airports_raw = $this->wackyModel->listMyAirports();
+            //restructure the airport by key
+            $airports = array();
+            foreach ($airports_raw as $airport) {
+                $airports[$airport['id']] = $airport;
+            }
+            
+            foreach ($source as $key => $flight) {
+                $source[$key]['plane'] = $planes[$flight['model_id']];
+            }
+            
             $this->data['flightdata'] = $source;
+            
             $this->render();
         }
 
 
     }
 
-    //MY UPDATE FUNCTION WORKS NOW!.
-    // id,plane,depart,depart_airport,depart_time,arrival,arrival_airport,arrival_time
-    public function update()
+    public function add()
     {
-        //Catching all the variables from the URL (sent from adminflights)
-        $id = $_POST['id'];
-        $departAirport = $_POST['depart_airport'];
-        $depart_time = $_POST['depart_time'];
-        $arrival = $_POST['arrival'];
-        $arrival_time = $_POST['arrival_time'];
+        // setup for validation
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules($this->flightModel->formRules());
+        $data = $this->input->post();
+        // validate away
+        if ($this->form_validation->run())
+        {
+            unset($data['id']);
+            $flight = new Flight($data);
+            $flight_id = $this->flightModel->saveFlight($flight);
 
-        //Test URL values are grabbed (YES)
-//        echo ($id);
-//        echo ($departAirport);
-//        echo ($depart_time);
-//        echo ($arrival);
-//        echo ($arrival_time);
+            redirect('/flights');
+        } else
+        {
+            //error control
+            redirect('/flights');
+        }
+    }
+    
+    public function update(){
+        // setup for validation
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules($this->flightModel->formRules());
+        $data = $this->input->post();
+        // validate away
+        if ($this->form_validation->run())
+        {
+            $flight = new Flight($data);
 
-        //If any of the fields are left empty don't do anything and return to flights page
-        //I'LL NEED TO IMPLEMENT THIS EVENTUALLY.
-//        if ($id == '' or $departAirport = '' or $depart_time = '' or $arrival = '' or $arrival_time = '' )
-//            redirect('/flights');
+            $flight_id = $this->flightModel->saveFlight($flight);
 
-        $this->load->model('flightModel');
-        //Grabs the item for the specified ID
-        $item = $this->flightModel->get($id);
-        //In order to use the data, var needs to be casted as an array
-        $converted = (array)$item;
-
-        //Now $converted can be accessed using $var['name'] format
-        //var_dump($converted['id']);
-        //$converted['id'] = 'GXS';
-        //var_dump($converted['id']);
-        //echo($_GET('depart_airport'));
-
-        //Accessing values that can be modified and modifying them accordingly
-        $converted['depart_airport'] = $departAirport;
-        $converted['depart_time'] = $depart_time;
-        $converted['arrival'] = $arrival;
-        $converted['arrival_time'] = $arrival_time;
-
-        //Now we need to convert the array into an object as before
-        $converted = (object)$converted;
-
-        //The following test shows variables are changed accordingly
-        //var_dump($converted);
-
-        //Now we can pass the object to update CSV and re-render to see changes:
-        $this->flightModel->update($converted);
-        $this->index();
+            redirect('/flights');
+        } else
+        {
+            //error control
+            redirect('/flights');
+        }
     }
 
 }
