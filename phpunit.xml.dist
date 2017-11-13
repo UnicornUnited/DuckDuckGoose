@@ -23,4 +23,10 @@
             <directory>./system/</directory>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-html" target="./tests/reports" charset="UTF-8"
+            yui="true" highlight="true"
+            lowUpperBound="50" highLowerBound="80"/>
+        <log type="testdox-html" target="./tests/reports/testdox.html" />
+    </logging>
 </phpunit>
