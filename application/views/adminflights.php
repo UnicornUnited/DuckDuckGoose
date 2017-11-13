@@ -30,7 +30,7 @@
                     </tr>
                     <form action="/flights/add" method="post">
                     <tr>
-                        <td title="{plane}"><input type="text" name="id" value="Auto Assigned" disabled="true"></td>
+                        <td title="{id}"><input type="text" name="id" value="Auto Assigned" disabled="true"></td>
                         <td title="{plane}">{add_plane_selection}</td>
                         <td title="{depart_airport}">{add_depart_selection}</td>
                         <td title="{depart_time}"><input type="text" name="depart_time" value=""></td>
