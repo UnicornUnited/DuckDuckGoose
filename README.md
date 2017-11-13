@@ -11,4 +11,7 @@ the members of the project team.
 
 #Version 2
 
-In progress..
+Added user roles: Admin and Guest. The Admin user can edit and update flight and plane information. 
+Added a flight booking page that displays flights that match the destination and departure airports that 
+the user selects. 
+Enabled unit testing. 
