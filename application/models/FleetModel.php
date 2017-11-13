@@ -74,4 +74,18 @@ class FleetModel extends CSV_Model
         $this->delete($entity->id);
         return $this->get($entity->id) === NULL;
     }
+    
+    // provide form validation rules
+    public function rules()
+    {
+        $config = array(
+            ['field' => 'model_id', 'label' => 'Model Id', 'rules' => 'required'],
+        );
+            return $config;
+    }
+    // retrieve a single plane, null if not found
+//    public function get($which);
+
+    // retrieve all of the planes
+//    public function all();
 }

@@ -12,11 +12,31 @@
 All notable changes to this project will be documented in this file.
 
 # [latest stable version 1.0.0]
+
+
 ## [2.0.0] - 2017-11-12
-## Changed
- - Change Controller Flights and view adminflights to ensure the Admin role can see editable fields and update them correctly in the CSV file
- - Add functions to fleetModel and flightModel to handle saving data to data file. 
+## Added 
+###Controllers
+ - Booking controller to handle the flight booking feature
+###Views
+ - flightbooking.php to display the inputs for departure and destination airports
+ - flightbooking_display.php to display the flights that match the input
+ - fleetedit view to display fleet edit page for admin user
+ - planeedit view to display plane edit page for admin user
+ 
+## Changed 
+###Models 
+ - Put a method in the FlightModel to retrieve flights that match a specifc
+   departure and destination airport
+ - Add functions to fleetModel and flightModel to handle saving data to data file.
+###Controllers
+ - Change Controller Flights to ensure the Admin role can see editable fields and update them correctly in the CSV file 
+ - Add functions Fleet Controller to allow admin user to modify fleet.
  - Enable editing and adding flights on the flight page with admin role.
+###Views
+ - Change view adminflights to ensure the Admin role can see editable fields and update them correctly in the CSV file
+ - Modified fleet and plane views to work with new properties.
+
 
 ## [2.0.0] - 2017-11-11
 ## Changed
