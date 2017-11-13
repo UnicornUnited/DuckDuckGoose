@@ -51,6 +51,10 @@ class Flight extends Entity {
         return  $this->_initialized;
     }
     
+    public function getHours($time){
+        return (strtotime($time) - strtotime("0:00"))/3600;
+    }
+    
     /**
      * Sets Flight Id.
      * @param type $value
@@ -72,7 +76,7 @@ class Flight extends Entity {
      * @param type $value
      */
     public function setDepart($value) {
-        $this->depart_airport = $value;
+        $this->depart = $value;
     }
     
     /**
@@ -80,7 +84,10 @@ class Flight extends Entity {
      * @param type $value
      */
     public function setDepartTime($value) {
-        $this->depart_time = $value;
+        //business logic: no departure before 8:00
+        if($this->getHours($value) >= 8){
+            $this->depart_time = $value;
+        }
     }
     
     /**
@@ -96,7 +103,10 @@ class Flight extends Entity {
      * @param type $value
      */
     public function setArriveTime($value) {
-        $this->arriv_time = $value;
+        //business logic: no arrival after 22:00
+        if($this->getHours($value) <= 22){
+            $this->arrive_time = $value;
+        }
     }
     
     /**

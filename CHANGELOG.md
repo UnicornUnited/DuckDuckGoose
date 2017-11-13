@@ -24,7 +24,9 @@ All notable changes to this project will be documented in this file.
  - flightbooking_display.php to display the flights that match the input
  - fleetedit view to display fleet edit page for admin user
  - planeedit view to display plane edit page for admin user
- 
+###Tests
+ - Added logging (code coverage report)
+
 ## Changed 
 ###Models 
  - Put a method in the FlightModel to retrieve flights that match a specifc
@@ -39,7 +41,8 @@ All notable changes to this project will be documented in this file.
  - Change view adminflights to ensure the Admin role can see editable fields and update them correctly in the CSV file
  - Modified fleet and plane views to work with new properties.
   - Fixed layout issues in flights user views
-
+###Tests
+ - Add a few unit test cases for flight and flightModel
 
 ## [2.0.0] - 2017-11-11
 ## Changed
