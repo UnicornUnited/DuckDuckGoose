@@ -32,6 +32,23 @@ class FlightModel extends CSV_Model
     }
     
     /**
+     * Get the flights that depart from and arrive to airports specified by
+     * the user.
+     * @param type $dep departure airport
+     * @param type $des arrival airport
+     */
+    public function getFlightsByAirports($departure, $arrival){
+        $all = $this->all();
+        $flights = array();
+        foreach ($all as $flight) {
+            if($flight['depart'] == $departure && $flight['arrive'] == $arrival){
+                $flights[$flight['id']] = $flight;
+            }
+        }
+        return $flights;
+    }
+    
+    /**
      * Save an entity to data file
      * @param type $entity an entity to be save to the data file
      */
