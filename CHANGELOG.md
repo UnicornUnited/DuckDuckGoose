@@ -38,7 +38,8 @@ All notable changes to this project will be documented in this file.
 ###Views
  - Change view adminflights to ensure the Admin role can see editable fields and update them correctly in the CSV file
  - Modified fleet and plane views to work with new properties.
-
+###Tests
+ - Add a few unit test cases for flight and flightModel
 
 ## [2.0.0] - 2017-11-11
 ## Changed
