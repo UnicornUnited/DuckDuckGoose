@@ -44,8 +44,6 @@ class Flights extends Application
             $this->data['flightdata'] = $source;
             $this->render();
         }
-
-
     }
 
     //MY UPDATE FUNCTION WORKS NOW!.
@@ -98,6 +96,76 @@ class Flights extends Application
         //Now we can pass the object to update CSV and re-render to see changes:
         $this->flightModel->update($converted);
         $this->index();
+    }
+
+    // Initiate adding a new flight
+    public function add()
+    {
+        $this->load->model('flightModel');
+        $flightModel = $this->flightModel->create();
+        $this->session->set_userdata('flightModel', $flightModel);
+        $this->showit();
+    }
+
+    // Render the current DTO
+    private function showit()
+    {
+        $this->load->helper('form');
+        $task = $this->session->userdata('flightModel');
+//        var_dump($task);
+//        $this->data['id'] = $task->id;
+//
+//        // if no errors, pass an empty message
+//        if ( ! isset($this->data['error']))
+//            $this->data['error'] = '';
+
+//        {fid}
+//        {fplaneid}
+//        {fdepart}
+//        {fdepart_airport}
+//        {fdepart_time}
+//        {farrival}
+//        {farrival_airport}
+//        {farrival_time}
+//        {zsubmit}
+
+        //THE BELOW SHOULD IDEALLY BE CALLED FROM APP MODEL.
+        //I DIDN'T MANAGE TO MAKE APP MODEL WORK :(
+        // Planes
+        $planeid = [
+        1 => 'Grand Caravan Ex',
+        2 => 'PC-12 NG',
+        3 => 'Phenom 100'
+        ];
+
+        // Airport Codes
+        $airportcodes = [
+        1	 => 'YVE',
+        2	 => 'YGE',
+        3	 => 'ZMH',
+        4	 => 'YYJ',
+        5    => 'ZMH'
+        ];
+
+        // if no errors, pass an empty message
+        if ( ! isset($this->data['error']))
+            $this->data['error'] = '';
+
+        $fields = array(
+            'fid'      => form_label('Flight ID') . form_input('id', $task->id),
+            'fplaneid'  => form_label('Plane ID') . form_dropdown('plane', $planeid, $task->plane),
+            'fdepart'      => form_label('Departure Location') . form_dropdown('depart', $airportcodes, $task->depart),
+            'fdepart_airport'      => form_label('Departure Airport') .form_input('depart_airport', $task->depart_airport),
+            'fdepart_time'      => form_label('Departure Time') . form_input('depart_time', $task->depart_time),
+            'farrival'      => form_label('Arrival Location') . form_dropdown('arrival', $airportcodes, $task->arrival),
+            'farrival_airport'      => form_label('Arrival Airport') . form_input('arrival_airport', $task->arrival_airport),
+            'farrival_time'      => form_label('Arrival Time') . form_input('arrival_time', $task->arrival_time),
+            'zsubmit'    => form_submit('submit', 'Create Flight Details'),
+        );
+        $this->data = array_merge($this->data, $fields);
+
+        $this->data['pagebody'] = 'itemedit';
+        $this->render();
     }
 
 }

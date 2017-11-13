@@ -25,5 +25,11 @@
                     {/flightdata}
                 </table>
             </div>
+        <!-- Button trigger modal -->
+        <a href="/flights/add">
+            <button type="button" class="btn btn-primary">
+                Add Flight
+            </button>
+        </a>
     </div>
 </div>
