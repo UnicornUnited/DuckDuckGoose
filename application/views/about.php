@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <div class="jumbotron">
         <h1>About Us</h1>
         <p>Goose Airlines is this amazing, but very fictitious, airline that embraces the world by keeping it connected. Here

@@ -32,14 +32,33 @@ class Application extends CI_Controller
 	 */
 	function render($template = 'template')
 	{
+            //Show the current user on page title
+            $role = $this->session->userdata('userrole');
+            $this->data['pagetitle'] .= ' ('. $role . ')';
+            
+            
             // Build the menubar
-            $this->data['menubar'] = $this->parser->parse('_menubar', $this->config->item('menu_choices'), true);
+            $menu_data = $this->config->item('menu_choices');
+            //determine the dropdown checkmark
+            if($role === ROLE_ADMIN){
+                $menu_data['login_checkmark_admin'] = '&#10003;';
+            }
+            else{
+                $menu_data['login_checkmark_admin'] = '';
+            }
+            if($role === ROLE_GUEST){
+                $menu_data['login_checkmark_guest'] = '&#10003;';
+            }
+            else{
+                $menu_data['login_checkmark_guest'] = '';
+            }
+            $this->data['menubar'] = $this->parser->parse('_menubar', $menu_data, true);
 
             // Determine the URL this page was requested as
             $this->data['origin'] = $this->uri->uri_string();
             
-		$this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
-		$this->parser->parse('template', $this->data);
+            $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
+            $this->parser->parse('template', $this->data);
 	}
 
 }

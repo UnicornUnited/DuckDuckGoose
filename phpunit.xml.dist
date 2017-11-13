@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+    colors="true"
+    stopOnFailure="false"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    syntaxCheck="false"
+    cacheTokens="true"
+    verbose="false"
+    bootstrap="tests/Bootstrap.php">
+    <testsuites>
+        <testsuite name="CITools Test Suite">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory>./system/</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="./tests/reports" charset="UTF-8"
+            yui="true" highlight="true"
+            lowUpperBound="50" highLowerBound="80"/>
+        <log type="testdox-html" target="./tests/reports/testdox.html" />
+    </logging>
+</phpunit>

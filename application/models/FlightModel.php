@@ -1,47 +1,129 @@
 <?php
-class FlightModel extends CI_Model
-{
 
-    // The data is hardcoded to indicate the flights we've created.
-    // Flight_ID	Plane Type                     Depart Airport	  Depart Airport Name                  Time	                  Arrival Airport	Arrival Airport Name                                Time
-    var $data = array(
-        'G100' => array('plane' => 'Grand Caravan EX','depart' => 'YGE', 'depart_airport' => 'Golden Airport' ,'depart_time' => '08:00', 'arrival' => 'ZMH', 'arrival_airport' => 'South Cariboo Regional Airport','arrival_time' => '09:00'),
-        'G200' => array('plane' => 'Grand Caravan EX','depart' => 'ZMH', 'depart_airport' => 'South Cariboo Regional Airport','depart_time' => '09:30', 'arrival' => 'YGE', 'arrival_airport' => 'Golden Airport','arrival_time' => '10:30'),
-        'G300' => array('plane' => 'Grand Caravan EX','depart' => 'YGE', 'depart_airport' => 'Golden Airport','depart_time' => '11:00', 'arrival' => 'ZMH', 'arrival_airport' => 'South Cariboo Regional Airport','arrival_time' => '12:00'),
-        'G400' => array('plane' => 'Grand Caravan EX','depart' => 'ZMH', 'depart_airport' => 'South Cariboo Regional Airport','depart_time' => '12:30', 'arrival' => 'YGE', 'arrival_airport' => 'Golden Airport','arrival_time' => '13:30'),
-        'G500' => array('plane' => 'PC-12 NG','depart' => 'YGE', 'depart_airport' => 'Golden Airport','depart_time' => '08:30', 'arrival' => 'YYJ', 'arrival_airport' => 'Victoria International Airport','arrival_time' => '10:00'),
-        'G600' => array('plane' => 'PC-12 NG','depart' => 'YYJ', 'depart_airport' => 'Victoria International Airport','depart_time' => '10:30', 'arrival' => 'YGE', 'arrival_airport' => 'Golden Airport','arrival_time' => '12:00'),
-        'G700' => array('plane' => 'PC-12 NG','depart' => 'YGE', 'depart_airport' => 'Golden Airport','depart_time' => '13:00', 'arrival' => 'YYJ', 'arrival_airport' => 'Victoria International Airport','arrival_time' => '14:30'),
-        'G800' => array('plane' => 'PC-12 NG','depart' => 'YYJ', 'depart_airport' => 'Victoria International Airport','depart_time' => '15:00', 'arrival' => 'YGE', 'arrival_airport' => 'Golden Airport','arrival_time' => '16:30'),
-        'G900' => array('plane' => 'Phenom 100','depart' => 'YGE', 'depart_airport' => 'Golden Airport','depart_time' => '17:00', 'arrival' => 'YVE', 'arrival_airport' => 'Vernon Regional Airport','arrival_time' => '17:30'),
-        'G1000' => array('plane' => 'Phenom 100','depart' => 'YVE', 'depart_airport' => 'Vernon Regional Airport','depart_time' => '18:00', 'arrival' => 'YGE', 'arrival_airport' => 'Golden Airport','arrival_time' => '18:30'),
-        'G1100' => array('plane' => 'Phenom 100','depart' => 'YGE', 'depart_airport' => 'Golden Airport','depart_time' => '19:00', 'arrival' => 'YVE', 'arrival_airport' => 'Vernon Regional Airport','arrival_time' => '19:30'),
-        'G1200' => array('plane' => 'Phenom 100','depart' => 'YVE', 'depart_airport' => 'Vernon Regional Airport','depart_time' => '20:00', 'arrival' => 'YGE', 'arrival_airport' => 'Golden Airport','arrival_time' => '20:30'),
-    );
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class FlightModel extends CSV_Model
+{
 
     // Constructor
     public function __construct()
     {
-        parent::__construct();
-
-        // inject each "record" key into the record itself, for ease of presentation
-        foreach ($this->data as $key => $record)
-        {
-            $record['key'] = $key;
-            $this->data[$key] = $record;
+        parent::__construct(APPPATH . DATAPATH.'flight.csv', 'id');
+    }
+    
+    /**
+     * generate a new flight id following the naming convention.
+     * @return string
+     */
+    private function generateNewId(){
+        return 'G' . (1000 + 10 * $this->size());
+    }
+    
+    /**
+     * override the parent functions to return array instead of object
+     */
+    public function all() {
+        $records = parent::all();
+        $resource = array();
+        foreach ($records as $key => $record) {
+            $resource[$key] = (array)$record;
+        }
+        return $resource;
+    }
+    
+    /**
+     * Get the flights that depart from and arrive to airports specified by
+     * the user.
+     * @param type $dep departure airport
+     * @param type $des arrival airport
+     */
+    public function getFlightsByAirports($departure, $arrival){
+        $all = $this->all();
+        $flights = array();
+        foreach ($all as $flight) {
+            if($flight['depart'] == $departure && $flight['arrive'] == $arrival){
+                $flights[$flight['id']] = $flight;
+            }
+        }
+        return $flights;
+    }
+    
+    /**
+     * Save an entity to data file
+     * @param type $entity an entity to be save to the data file
+     */
+    public function saveFlight($entity){
+        //check if entity is an Entity class
+        if(!is_a($entity, 'Entity')){
+            return false;
+        }
+        //get the array representation of the entity for saving
+        $record = $entity->toArray();
+        //add or update?
+        if($entity->id === NULL || $this->get($entity->id) === NULL){
+            //generate an id for the new record
+            $record['id'] = $this->generateNewId();
+            $this->add($record);
+            return $record['id'];
+        }
+        else{
+            $this->update($record);
+            return $record['id'];
         }
     }
-
-    // retrieve a single flight, null if not found
-    public function get($which)
-    {
-        return !isset($this->data[$which]) ? null : $this->data[$which];
+    
+    /**
+     * Save a collection of entity to data file
+     * @param type $collection an array of entity
+     */
+    public function saveFlightCollection($collection){
+        //check if collecion is an array of Entity class
+        if(!is_array($collection))
+            return false;
+        foreach ($collection as $entity) {
+            if(!is_a($entity, 'Entity')){
+                return false;
+            }
+        }
+        //call the saveFlight() to save each entity
+        foreach ($collection as $entity) {
+            $this->saveFlight($entity);
+        }
     }
-
-    // retrieve all of the scheduled flights
-    public function all()
-    {
-        return $this->data;
+    
+    /**
+     * Delete an flight from data file by the reference of given entity
+     * @param type $entity an entity to be removed from the data file
+     */
+    public function deleteFlight($entity){
+        //check if entity is an Entity class
+        if(!is_a($entity, 'Entity')){
+            return false;
+        }
+        $this->delete($entity->id);
+        return $this->get($entity->id) === NULL;
     }
+    
+    /**
+     * A set of rules for form validation.
+     */
+    public function formRules(){
+        //Regex for HH:MM format: /^([0-9]|0[0-9]|1[0-9]|2[0-3])?(:([0-5]|[0-5][0-9])?)?$/
+        //Built in regex_match[] from form_validation library didn't work. I had to improvise
+        //and this seems to be the only way to get the regex to work
+        function my_func ($field) {
+            return (bool)preg_match('/^([0-9]|0[0-9]|1[0-9]|2[0-3])?(:([0-5]|[0-5][0-9])?)?$/', $field);
+        }
 
+        //Form Validation from Codeigniter helper
+        $config = array(
+                ['field' => 'id', 'label' => 'Flight ID', 'rules' => 'alpha_numeric|exact_length[5]'],
+                ['field' => 'depart', 'label' => 'Departure Airport', 'rules' => 'alpha|exact_length[3]'],
+                ['field' => 'depart_time', 'label' => 'Departure Time', 'rules' => 'required|my_func'],
+                ['field' => 'arrive', 'label' => 'Arrival Airport', 'rules' => 'alpha|exact_length[3]'],
+                ['field' => 'arrive_time', 'label' => 'Arrival Time', 'rules' => 'required|my_func'],
+            );
+        return $config;
+    }
+    
 }

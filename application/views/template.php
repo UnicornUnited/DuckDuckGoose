@@ -9,11 +9,13 @@
   </head>
   <body>
     <header>
-      <div class="container">
-        <center>
-            <h1>Welcome to Goose Airlines</h1>
-            <h3>We hope that you have a pleasant flight experience.</h3>
-        </center>
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-xs-12 text-center">
+                  <h1>Welcome to Goose Airlines</h1>
+                  <h3>We hope that you have a pleasant flight experience.</h3>
+              </div>
+          </div>
       </div>
     </header>
 
@@ -93,8 +95,8 @@
     <p>Copright by @andreyyann 2014, All right reserved.</p>
   </footer>
 
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
     <script>
       $(function() {
   $('a[href*=#]:not([href=#])').click(function() {
