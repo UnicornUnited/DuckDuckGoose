@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="jumbotron">
         <h2><strong>Add new flight data:</strong></h2>
-        <form role="form" action="/mtce/submit" method="post">
+        <form role="form" action="/flights/submit" method="post">
             <div class="form-group">
                 {fid}
             </div>

@@ -107,6 +107,24 @@ class Flights extends Application
         $this->showit();
     }
 
+    // submit
+    public function submit()
+    {
+        // FORM VALIDATION HAS NOT BEEN IMPLEMENTED
+        // ...
+
+        // retrieve & update data transfer buffer
+        $this->load->model('flightModel');
+        $task = (array)$this->session->userdata('flightModel');
+        $task = array_merge($task, $this->input->post());
+        $task = (object)$task;  // convert back to object
+        //var_dump($task);
+
+        $this->flightModel->add($task);
+        redirect('/flights');
+
+    }
+
     // Render the current DTO
     private function showit()
     {
