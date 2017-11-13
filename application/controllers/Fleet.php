@@ -47,4 +47,8 @@ class Fleet extends Application
         $this->data = array_merge($this->data, (array) $source);
         $this->render();
     }
+    
+    public function delete(){
+        echo((strtotime("13:30") - strtotime("0:00"))/3600);
+    }
 }
