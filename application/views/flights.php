@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container-fluid">
     <div class="jumbotron">
-            <div class="table">
-                <table class="table-responsive">
+            <div class="table-responsive">
+                <table class="table">
                     <tr>
                         <th>Flight ID</th>
                         <th>Plane</th>
