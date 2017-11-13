@@ -11,9 +11,11 @@ class FleetModel extends CSV_Model
         parent::__construct(APPPATH . DATAPATH.'fleet.csv', 'id');
     }
     
-    // retrieve a single plane, null if not found
-//    public function get($which);
-
-    // retrieve all of the planes
-//    public function all();
+    /**
+     * Save an entity to data file
+     * @param type $entity
+     */
+    public function saveFleet($entity){
+        
+    }
 }
