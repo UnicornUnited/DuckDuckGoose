@@ -22,6 +22,8 @@ All notable changes to this project will be documented in this file.
 ## Added
  - fleetedit view to display fleet edit page for admin user
  - planeedit view to display plane edit page for admin user
+ - Enable editing and adding flights on the flight page with admin role.
+
 
 ## [2.0.0] - 2017-11-11
 ## Changed
