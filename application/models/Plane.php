@@ -25,5 +25,14 @@ class Plane extends Entity {
         $this->model_id = $value;
     }
 
+    /**
+     * return an array format representation of this entity
+     */
+    public function toArray(){
+        return array(
+            'id'                   => $this->id,
+            'model_id'             => $this->model_id
+        );
+    }
 }
 

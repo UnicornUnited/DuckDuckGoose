@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ## [2.0.0] - 2017-11-12
 ## Changed
  - Change Controller Flights and view adminflights to ensure the Admin role can see editable fields and update them correctly in the CSV file
+ - Add functions to fleetModel and flightModel to handle saving data to data file. 
 
 ## [2.0.0] - 2017-11-11
 ## Changed

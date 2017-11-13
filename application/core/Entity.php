@@ -36,5 +36,12 @@ class Entity extends CI_Model {
             return NULL;
         }
     }
+    
+    /**
+     * return an array format representation of this entity
+     */
+    public function toArray(){
+        return array();
+    }
 }
 
