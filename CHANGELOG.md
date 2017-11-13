@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 ## Added 
 ###Controllers
  - Booking controller to handle the flight booking feature
+ - Fixed controller flights as a piece of code was generating errors when trying to update or add a flight in admin mode
 ###Views
  - flightbooking.php to display the inputs for departure and destination airports
  - flightbooking_display.php to display the flights that match the input
@@ -31,6 +32,7 @@ All notable changes to this project will be documented in this file.
  - Put a method in the FlightModel to retrieve flights that match a specifc
    departure and destination airport
  - Add functions to fleetModel and flightModel to handle saving data to data file.
+ - Added additional validaiton (regex) rules via the models. Changes done to remove unused code as they were implemented with entities.
 ###Controllers
  - Change Controller Flights to ensure the Admin role can see editable fields and update them correctly in the CSV file 
  - Add functions Fleet Controller to allow admin user to modify fleet.
@@ -38,6 +40,7 @@ All notable changes to this project will be documented in this file.
 ###Views
  - Change view adminflights to ensure the Admin role can see editable fields and update them correctly in the CSV file
  - Modified fleet and plane views to work with new properties.
+  - Fixed layout issues in flights user views
 ###Tests
  - Add a few unit test cases for flight and flightModel
 

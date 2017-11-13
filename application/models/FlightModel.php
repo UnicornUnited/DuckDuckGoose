@@ -108,10 +108,20 @@ class FlightModel extends CSV_Model
      * A set of rules for form validation.
      */
     public function formRules(){
+        //Regex for HH:MM format: /^([0-9]|0[0-9]|1[0-9]|2[0-3])?(:([0-5]|[0-5][0-9])?)?$/
+        //Built in regex_match[] from form_validation library didn't work. I had to improvise
+        //and this seems to be the only way to get the regex to work
+        function my_func ($field) {
+            return (bool)preg_match('/^([0-9]|0[0-9]|1[0-9]|2[0-3])?(:([0-5]|[0-5][0-9])?)?$/', $field);
+        }
+
+        //Form Validation from Codeigniter helper
         $config = array(
                 ['field' => 'id', 'label' => 'Flight ID', 'rules' => 'alpha_numeric|exact_length[5]'],
                 ['field' => 'depart', 'label' => 'Departure Airport', 'rules' => 'alpha|exact_length[3]'],
+                ['field' => 'depart_time', 'label' => 'Departure Time', 'rules' => 'required|my_func'],
                 ['field' => 'arrive', 'label' => 'Arrival Airport', 'rules' => 'alpha|exact_length[3]'],
+                ['field' => 'arrive_time', 'label' => 'Arrival Time', 'rules' => 'required|my_func'],
             );
         return $config;
     }

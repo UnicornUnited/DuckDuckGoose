@@ -115,7 +115,7 @@ class Flight extends Entity {
     public function toArray(){
         return array(
             'id'                    => $this->id,
-            'model_id'                 => $this->model_id,
+            'model_id'                => $this->model_id,
             'depart'                => $this->depart,
             'depart_time'           => $this->depart_time,
             'arrive'               => $this->arrive,
