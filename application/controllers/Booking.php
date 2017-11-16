@@ -20,7 +20,7 @@ class Booking extends Application
         $this->data['pagebody'] = 'flightbooking';
         
         //Load the airports that our airline flies to and from
-        $this->load->model('wackymodel');
+        $this->load->model('wackyModel');
         $airports = $this->wackymodel->listMyAirports();
         
         $this->data['airports'] = $airports;        
