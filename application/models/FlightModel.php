@@ -16,7 +16,7 @@ class FlightModel extends CSV_Model
      * @return string
      */
     private function generateNewId(){
-        return 'G' . (1000 + 10 * $this->size());
+        return 'G' . (1000 + 10 * ($this->size() + 1));
     }
     
     /**

@@ -82,7 +82,7 @@ class Flights extends Application
                 $source[$key]['arrive_selection'] = form_dropdown('arrive', $airport_options, $flight['arrive']);
             }
             
-            $this->data['add_plane_selection'] = form_dropdown('model_id', $plane_options, "");
+            $this->data['add_plane_selection'] = form_dropdown('plane_id', $plane_options, "");
             $this->data['add_depart_selection'] = form_dropdown('depart', $airport_options, "");
             $this->data['add_arrive_selection'] = form_dropdown('arrive', $airport_options, "");
 
