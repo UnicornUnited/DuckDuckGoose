@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="jumbotron">
-        <h2>Flight Booking</h2>
+        <h2><span class="glyphicon glyphicon-plane"></span> Flight Booking</h2>
         
         <form method="post" action="/booking/availableflights" >
             <!--Dropdown of departure airports for Goose Airlines-->

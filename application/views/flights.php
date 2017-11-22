@@ -3,6 +3,11 @@
             <div class="table-responsive">
                 <table class="table">
                     <tr>
+                        <td colspan="6">
+                            <h2><span class="glyphicon glyphicon-plane"></span> Flights We Have</h2>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>Flight ID</th>
                         <th>Plane</th>
                         <th>Departure Airport</th>
