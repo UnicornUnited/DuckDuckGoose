@@ -49,6 +49,22 @@ class FlightModel extends CSV_Model
     }
     
     /**
+     * Get the flights that a plane is assigned to
+     * the user.
+     * @param type $plane_id plane id
+     */
+    public function getFlightsByPlane($plane_id){
+        $all = $this->all();
+        $flights = array();
+        foreach ($all as $flight) {
+            if($flight['plane_id'] == $plane_id){
+                $flights[$flight['id']] = $flight;
+            }
+        }
+        return $flights;
+    }
+    
+    /**
      * Save an entity to data file
      * @param type $entity an entity to be save to the data file
      */

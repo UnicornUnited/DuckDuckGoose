@@ -9,7 +9,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Plane</th>
+                        <th>Plane ID</th>
+                        <th>Model</th>
                         <th><span title="Number of different airports it travels">Airport Count</span></th>
                         <th><span title="Number of different flight it flies">Flight Count</span></th>
                         <th><span title="Earliest Flight">Earliest Flight</span></th>
@@ -17,7 +18,11 @@
                     </tr>
                     {plane_items}
                     <tr>
-                        <td><a href="/fleet/plane/{id}">{model_id}</a></td>
+                        <td><a href="/fleet/plane/{id}">
+                                <button type="button" class="btn btn-primary">{id}</button>
+                            </a>
+                        </td>
+                        <td>{model_id}</td>
                         <td>{airport_count}</td>
                         <td>{flight_count}</td>
                         <td>{earliest_depart}({earliest_source}) <span class="glyphicon glyphicon-arrow-right"></span> {earliest_arrive}({earliest_destination})</td>

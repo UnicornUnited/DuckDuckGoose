@@ -32,6 +32,7 @@ class Fleet extends Application
     public function index()
     {
         $role = $this->session->userdata('userrole');
+        $this->load->helper('form');
         // Load the FlightModel
         $this->load->model('flightModel');
         // Load the Flight Entity Model
@@ -48,18 +49,24 @@ class Fleet extends Application
         // Retrieve the fleet data
         $source = $this->fleetModel->all();
 
-        $temp = $this->wackyModel->airplanes();
+        $planes_raw = $this->wackyModel->airplanes();
         $planes = array();
-        foreach($temp as $key=>$plane){
+        $plane_options = array();
+        foreach($planes_raw as $key=>$plane){
             $planes[$plane['id']] = $plane;
+            //create dropdown options
+            $plane_options[$plane['id']] = $plane['model']." (C$ ".$plane['price'].")";
         }
         
+        
         $flights = $this->flightModel->all();
-//        var_dump($flights);
+//        var_dump($planes_raw);
+
         $airport_count = array();
         $flight_count = array();
         $earliest_flights = array();
         $latest_flights = array();
+        
         
         foreach($flights as $key=>$flight){
             //airport count
@@ -123,6 +130,7 @@ class Fleet extends Application
         
         foreach($source as $key=>$plane){
             $source[$key]->plane_name = $planes[$plane->model_id]['model'];
+            $source[$key]->price = $planes[$plane->model_id]['price'];
             //airport_count
             $source[$key]->airport_count = 0;
             if(key_exists($plane->id, $airport_count)){
@@ -162,7 +170,12 @@ class Fleet extends Application
                 $source[$key]->latest_destination = 'N/A';
             }
         }
+        //create a form dropdown for plane for each flight
+        $this->data['plane_selection'] = form_dropdown('model_id', $plane_options, "");
 //        var_dump($source);
+        $this->data['plane_count'] = count($source);
+        $this->data['available_budget'] = $this->fleetModel->getBudget() - $this->fleetModel->getGrandTotal();
+        $this->data['grand_total'] = count($source);
         $this->data['plane_items'] = $source;
         $this->render();
      
@@ -177,10 +190,12 @@ class Fleet extends Application
         
         $detail = $this->wackyModel->getPlane($source['model_id']);
         
-        $source['type'] = $detail['model'];
-        $source['speed'] = $detail['cruise'] . ' kph';
-        
-        $this->data = array_merge($this->data, (array) $source);
+        $detail['plane_id'] = $key;
+        //get flights by plane id
+        $this->load->model('flightModel');
+        $flights = $this->flightModel->getFlightsByPlane($key);
+        $detail['flights'] = $flights;
+        $this->data = array_merge($this->data, (array) $detail);
         $this->render();
     }
     
@@ -191,6 +206,39 @@ class Fleet extends Application
         $plane = new Plane();
         $this->session->set_userdata('plane', $plane);
         $this->showit();
+    }
+    
+    function validateModelId($model_id){
+        $planes_raw = $this->wackyModel->airplanes();
+        $planes = array();
+        foreach($planes_raw as $key=>$plane){
+            if($plane['id'] == $model_id){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function buy(){
+        // setup for validation
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules($this->fleetModel->formRules());
+        $this->form_validation->set_message('validateModelId','Member is not valid!');
+        $data = $this->input->post();
+        // validate away
+        if ($this->form_validation->run())
+        {
+            $this->load->model('plane');
+            $plane = new Plane();
+            $plane->model_id = $data['model_id'];
+            $flight_id = $this->fleetModel->saveFleet($plane);
+//
+            redirect('/fleet');
+        } else
+        {
+            //error control
+            redirect('/fleet');
+        }
     }
     
     //Initiate editing of a plane
