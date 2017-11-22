@@ -85,10 +85,18 @@ class FleetModel extends CSV_Model
             return $config;
     }
     
+    /**
+     * Retrieve the total budget allocated to this fleet.
+     * @return type double
+     */
     public function getBudget(){
-        return $this->budget;
+        return doubleval($this->budget);
     }
     
+    /**
+     * Return how much money has been spent in buying planes for this fleet.
+     * @return type double
+     */
     public function getGrandTotal(){
         $wackyModel = new WackyModel();
         $planes_raw = $wackyModel->airplanes();
@@ -96,9 +104,9 @@ class FleetModel extends CSV_Model
         foreach($planes_raw as $key=>$plane){
             $planes[$plane['id']] = $plane;
         }
-        $grandTotal = 0;
+        $grandTotal = 0.0;
         foreach ($this->all() as $key => $value) {
-            $grandTotal += intval($planes[$value->model_id]['price']);
+            $grandTotal += doubleval($planes[$value->model_id]['price']);
         }
         return $grandTotal;
     }
