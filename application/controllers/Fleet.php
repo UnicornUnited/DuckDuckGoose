@@ -9,6 +9,12 @@ class Fleet extends Application
      */
     public function __construct() {
         parent::__construct();
+        // Load the FleetModel
+        $this->load->model('fleetModel');
+        // Load the Plane Entity Model
+        $this->load->model('plane');
+        // Load the Wachy Data Model
+        $this->load->model('wackyModel');
     }
     
     /**
@@ -26,11 +32,10 @@ class Fleet extends Application
     public function index()
     {
         $role = $this->session->userdata('userrole');
-        
-        // Load the FleetModel
-        $this->load->model('fleetModel');
-        // Load the Plane Entity Model
-        $this->load->model('plane');
+        // Load the FlightModel
+        $this->load->model('flightModel');
+        // Load the Flight Entity Model
+        $this->load->model('flight');
         // Select the desired view for the list of planes
         
         if ($role == ROLE_ADMIN) 
@@ -42,6 +47,122 @@ class Fleet extends Application
         }
         // Retrieve the fleet data
         $source = $this->fleetModel->all();
+
+        $temp = $this->wackyModel->airplanes();
+        $planes = array();
+        foreach($temp as $key=>$plane){
+            $planes[$plane['id']] = $plane;
+        }
+        
+        $flights = $this->flightModel->all();
+//        var_dump($flights);
+        $airport_count = array();
+        $flight_count = array();
+        $earliest_flights = array();
+        $latest_flights = array();
+        
+        foreach($flights as $key=>$flight){
+            //airport count
+            if(!key_exists($flight['plane_id'], $airport_count)){
+                $airport_count[$flight['plane_id']] = array();
+            }
+            $airport_count[$flight['plane_id']][$flight['depart']] = 1;
+            $airport_count[$flight['plane_id']][$flight['arrive']] = 1;
+            //flight count
+            if(!key_exists($flight['plane_id'], $flight_count)){
+                $flight_count[$flight['plane_id']] = 0;
+            }
+            $flight_count[$flight['plane_id']] ++;
+            //earliest flight
+            if(!key_exists($flight['plane_id'], $earliest_flights)){
+                $earliest_flights[$flight['plane_id']] = 
+                        array(
+                            'id'=>$flight['id'],
+                            'hours'=>$this->flight->getHours($flight['depart_time']), 
+                            'depart_time'=>$flight['depart_time'], 
+                            'depart'=>$flight['depart'],
+                            'arrive_time'=>$flight['arrive_time'], 
+                            'arrive'=>$flight['arrive']
+                        );
+            }
+            else if($earliest_flights[$flight['plane_id']]['hours'] > $this->flight->getHours($flight['depart_time'])){
+                $earliest_flights[$flight['plane_id']] = 
+                        array(
+                            'id'=>$flight['id'],
+                            'hours'=>$this->flight->getHours($flight['depart_time']), 
+                            'depart_time'=>$flight['depart_time'], 
+                            'depart'=>$flight['depart'],
+                            'arrive_time'=>$flight['arrive_time'], 
+                            'arrive'=>$flight['arrive']
+                        );
+            }
+            //latest flight
+            if(!key_exists($flight['plane_id'], $latest_flights)){
+                $latest_flights[$flight['plane_id']] = 
+                        array(
+                            'id'=>$flight['id'],
+                            'hours'=>$this->flight->getHours($flight['depart_time']), 
+                            'depart_time'=>$flight['depart_time'], 
+                            'depart'=>$flight['depart'],
+                            'arrive_time'=>$flight['arrive_time'], 
+                            'arrive'=>$flight['arrive']
+                        );
+            }
+            else if($latest_flights[$flight['plane_id']]['hours'] < $this->flight->getHours($flight['depart_time'])){
+                $latest_flights[$flight['plane_id']] = 
+                        array(
+                            'id'=>$flight['id'],
+                            'hours'=>$this->flight->getHours($flight['depart_time']), 
+                            'depart_time'=>$flight['depart_time'], 
+                            'depart'=>$flight['depart'],
+                            'arrive_time'=>$flight['arrive_time'], 
+                            'arrive'=>$flight['arrive']
+                        );
+            }
+        }
+        
+        foreach($source as $key=>$plane){
+            $source[$key]->plane_name = $planes[$plane->model_id]['model'];
+            //airport_count
+            $source[$key]->airport_count = 0;
+            if(key_exists($plane->id, $airport_count)){
+                $source[$key]->airport_count = count($airport_count[$plane->id]);
+            }
+            //flight_count
+            $source[$key]->flight_count = 0;
+            if(key_exists($plane->id, $flight_count)){
+                $source[$key]->flight_count = $flight_count[$plane->id];
+            }
+            //earliest flight
+            if(key_exists($plane->id, $earliest_flights)){
+//                $source[$key]->earliest_flight_link = '/flight/'.$earliest_flights[$plane->id]['id'];
+                $source[$key]->earliest_depart = $earliest_flights[$plane->id]['depart_time'];
+                $source[$key]->earliest_source = $earliest_flights[$plane->id]['depart'];
+                $source[$key]->earliest_arrive = $earliest_flights[$plane->id]['arrive_time'];
+                $source[$key]->earliest_destination = $earliest_flights[$plane->id]['arrive'];
+            }
+            else{
+//                $source[$key]->earliest_flight_link = '#this';
+                $source[$key]->earliest_depart = '--:--';
+                $source[$key]->earliest_source = 'N/A';
+                $source[$key]->earliest_arrive = '--:--';
+                $source[$key]->earliest_destination = 'N/A';
+            }
+            //latest flight
+            if(key_exists($plane->id, $latest_flights)){
+                $source[$key]->latest_depart = $latest_flights[$plane->id]['depart_time'];
+                $source[$key]->latest_source = $latest_flights[$plane->id]['depart'];
+                $source[$key]->latest_arrive = $latest_flights[$plane->id]['arrive_time'];
+                $source[$key]->latest_destination = $latest_flights[$plane->id]['arrive'];
+            }
+            else{
+                $source[$key]->latest_depart = '--:--';
+                $source[$key]->latest_source = 'N/A';
+                $source[$key]->latest_arrive = '--:--';
+                $source[$key]->latest_destination = 'N/A';
+            }
+        }
+//        var_dump($source);
         $this->data['plane_items'] = $source;
         $this->render();
      
@@ -49,10 +170,6 @@ class Fleet extends Application
 
     public function plane($key)
     {
-        // Load the FleetModel
-        $this->load->model('fleetModel');
-        // Load the WackyModel
-        $this->load->model('wackyModel');
         // Select the desired view for the plane details
         $this->data['pagebody'] = 'plane';
         // Retrieve just the desired plane

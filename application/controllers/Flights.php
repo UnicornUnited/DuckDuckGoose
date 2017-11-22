@@ -13,6 +13,7 @@ class Flights extends Application
         $this->load->model('flightModel');
         $this->load->model('flight');
         $this->load->model('wackyModel');
+        $this->load->model('fleetModel');
     }
         
     /**
@@ -37,8 +38,14 @@ class Flights extends Application
             
             $this->data['pagebody'] = 'adminflights';
             $source = $this->flightModel->all();
+//            var_dump($source);
+            $flights = $this->fleetModel->all();
             //list all planes
-            $planes = $this->wackyModel->airplanes();
+            $planes_raw = $this->wackyModel->airplanes();
+            $planes = array();
+            foreach ($planes_raw as $plane) {
+                $planes[$plane['id']] = $plane;
+            }
             //list all airports
             $airports_raw = $this->wackyModel->listMyAirports();
             //restructure the airport by key
@@ -49,8 +56,8 @@ class Flights extends Application
             
             //create dropdown options
             $plane_options = array();
-            foreach ($planes as $plane) {
-                $plane_options[$plane['id']] = $plane['model'];
+            foreach ($flights as $flight) {
+                $plane_options[$flight->id] = "(".$flight->id.") ".$planes[$flight->model_id]['model'];
             }
             
             $airport_options = array();
@@ -58,7 +65,6 @@ class Flights extends Application
                 $airport_options[$airport['id']] = $airport['airport'];
             }
             
-//            var_dump($source);
             //fill the source with additional data retrieving from wacky
             foreach ($source as $key => $flight) {
                 //fill the airport name
@@ -67,7 +73,7 @@ class Flights extends Application
                 $source[$key]['arriv_airport'] = $airports[$flight['arrive']]['airport'];
                 
                 //create a form dropdown for plane for each flight
-                $source[$key]['plane_selection'] = form_dropdown('model_id', $plane_options, $flight['model_id']);
+                $source[$key]['plane_selection'] = form_dropdown('plane_id', $plane_options, $flight['plane_id']);
                 
                 //create a form dropdown for departure for each flight
                 $source[$key]['depart_selection'] = form_dropdown('depart', $airport_options, $flight['depart']);
@@ -88,6 +94,7 @@ class Flights extends Application
             
             $this->data['pagebody'] = 'flights';
             $source = $this->flightModel->all();
+            $flights = $this->fleetModel->all();
             //list all planes
             $planes_raw = $this->wackyModel->airplanes();
             $planes = array();
@@ -103,7 +110,7 @@ class Flights extends Application
             }
             
             foreach ($source as $key => $flight) {
-                $source[$key]['plane'] = $planes[$flight['model_id']];
+                $source[$key]['plane'] = $planes[$flights[$flight['plane_id']]->model_id];
             }
             
             $this->data['flightdata'] = $source;

@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 ## [3.0.0] - 2017-11-21
 ## Changed
  - Views beautification.
+ - Update Fleet and Flight due to the change of model_id in data source.
 
 ## [2.0.0] - 2017-11-12
 ## Added 
