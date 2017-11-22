@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class FleetModel extends CSV_Model
 {
+    private $budget = 10000000;
 
     // Constructor
     public function __construct()
@@ -82,6 +83,36 @@ class FleetModel extends CSV_Model
             ['field' => 'model_id', 'label' => 'Model Id', 'rules' => 'required'],
         );
             return $config;
+    }
+    
+    public function getBudget(){
+        return $this->budget;
+    }
+    
+    public function getGrandTotal(){
+        $wackyModel = new WackyModel();
+        $planes_raw = $wackyModel->airplanes();
+        $planes = array();
+        foreach($planes_raw as $key=>$plane){
+            $planes[$plane['id']] = $plane;
+        }
+        $grandTotal = 0;
+        foreach ($this->all() as $key => $value) {
+            $grandTotal += intval($planes[$value->model_id]['price']);
+        }
+        return $grandTotal;
+    }
+    
+    /**
+     * A set of rules for form validation.
+     */
+    public function formRules(){
+        //Form Validation from Codeigniter helper
+        $config = array(
+            ['field' => 'plane_id', 'label' => 'Plane Id', 'rules' => 'alpha_numeric|greater_than[0]'],
+            ['field' => 'model_id', 'label' => 'Model', 'rules' => 'required|callback_validateModelId'],
+        );
+        return $config;
     }
     // retrieve a single plane, null if not found
 //    public function get($which);

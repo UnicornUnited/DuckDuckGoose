@@ -13,9 +13,17 @@ All notable changes to this project will be documented in this file.
 
 # [latest stable version 2.0.0]
 
+## [3.0.0] - 2017-11-22
+## Changed
+ - Display more information on fleet page and plane page.
+ - Link fleet and plane pages.
+ - Enable adding new plane to fleet.
+ - Fixed a few view and controller bugs related to fleet feature.
+
 ## [3.0.0] - 2017-11-21
 ## Changed
  - Views beautification.
+ - Update Fleet and Flight due to the change of model_id in data source.
 
 ## [2.0.0] - 2017-11-12
 ## Added 

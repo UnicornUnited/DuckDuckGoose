@@ -16,7 +16,7 @@ class FlightModel extends CSV_Model
      * @return string
      */
     private function generateNewId(){
-        return 'G' . (1000 + 10 * $this->size());
+        return 'G' . (1000 + 10 * ($this->size() + 1));
     }
     
     /**
@@ -42,6 +42,22 @@ class FlightModel extends CSV_Model
         $flights = array();
         foreach ($all as $flight) {
             if($flight['depart'] == $departure && $flight['arrive'] == $arrival){
+                $flights[$flight['id']] = $flight;
+            }
+        }
+        return $flights;
+    }
+    
+    /**
+     * Get the flights that a plane is assigned to
+     * the user.
+     * @param type $plane_id plane id
+     */
+    public function getFlightsByPlane($plane_id){
+        $all = $this->all();
+        $flights = array();
+        foreach ($all as $flight) {
+            if($flight['plane_id'] == $plane_id){
                 $flights[$flight['id']] = $flight;
             }
         }
