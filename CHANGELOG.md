@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
  - Link fleet and plane pages.
  - Enable adding new plane to fleet.
  - Fixed a few view and controller bugs related to fleet feature.
+ - Updated documentation for a few newly added functions.
 
 ## [3.0.0] - 2017-11-21
 ## Changed
