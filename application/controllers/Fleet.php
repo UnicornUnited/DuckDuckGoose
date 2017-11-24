@@ -55,7 +55,7 @@ class Fleet extends Application
         foreach($planes_raw as $key=>$plane){
             $planes[$plane['id']] = $plane;
             //create dropdown options
-            $plane_options[$plane['id']] = $plane['model']." (C$ ".$plane['price'].")";
+            $plane_options[$plane['id']] = $plane['model']." (C$ ".$plane['price'].",000)";
         }
         
         
@@ -130,7 +130,7 @@ class Fleet extends Application
         
         foreach($source as $key=>$plane){
             $source[$key]->plane_name = $planes[$plane->model_id]['model'];
-            $source[$key]->price = $planes[$plane->model_id]['price'];
+            $source[$key]->price = $planes[$plane->model_id]['price'].",000";
             //airport_count
             $source[$key]->airport_count = 0;
             if(key_exists($plane->id, $airport_count)){
@@ -174,7 +174,7 @@ class Fleet extends Application
         $this->data['plane_selection'] = form_dropdown('model_id', $plane_options, "");
 //        var_dump($source);
         $this->data['plane_count'] = count($source);
-        $this->data['available_budget'] = $this->fleetModel->getBudget() - $this->fleetModel->getGrandTotal();
+        $this->data['available_budget'] = ($this->fleetModel->getBudget() - $this->fleetModel->getGrandTotal()).",000";
         $this->data['grand_total'] = count($source);
         $this->data['plane_items'] = $source;
         $this->render();
@@ -225,12 +225,17 @@ class Fleet extends Application
         $this->form_validation->set_rules($this->fleetModel->formRules());
         $this->form_validation->set_message('validateModelId','Member is not valid!');
         $data = $this->input->post();
+        
         // validate away
         if ($this->form_validation->run())
         {
             //business logic checking
             //is plane type valid?
-            if($this->fleetModel->checkPlaneType($data['model_id'])){
+            $valid_type = $this->fleetModel->checkPlaneType($data['model_id']);
+            $plane = $this->wackyModel->airplanes($data['model_id']);
+            //is budget sufficient?
+            $sufficient_budget = $this->fleetModel->checkSufficientBudget($plane['price']);
+            if($valid_type && $sufficient_budget){
                 $this->load->model('plane');
                 $plane = new Plane();
                 $plane->model_id = $data['model_id'];

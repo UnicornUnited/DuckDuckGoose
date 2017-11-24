@@ -2,9 +2,9 @@
 use PHPUnit\Framework\TestCase;
 
 /**
- * This is a unit test case for plane
+ * This is a unit test case for fleet and plane
  */
-class PlaneTest extends TestCase
+class FleetTest extends TestCase
 {
     private $CI;
 
@@ -20,6 +20,7 @@ class PlaneTest extends TestCase
      */
     public function testPlaneType(){
         $airplanes = $this->CI->wackyModel->airplanes();
+        $valid_plane_type = '';
         if(count($airplanes) > 0){
             $valid_plane_type = $airplanes[0]['id'];
         }
@@ -41,7 +42,16 @@ class PlaneTest extends TestCase
         //expect budget to be greater than zero
         $this->assertEquals(true, $budget > 0, "Budget should be greater than Zero");
         //pass current grand total and expect it to be less than total budget
-        $this->assertEquals(true, $budget >= $grandtotal, "Over budget.");
+        $this->assertEquals(true, $budget >= $grandtotal, "Over budget limit.");
+        //check not over budget limit on purchase
+        //should be always within current budget limit
+        $test_price = 0;
+        //assert a true
+        $this->assertEquals(true, $this->CI->fleetModel->checkSufficientBudget($test_price), "Budget (".$budget.") should be sufficient to make this purchase (".$test_price.")");
+        //should be always over current budget limit
+        $test_price = $budget + 1;
+        //assert a false
+        $this->assertEquals(false, $this->CI->fleetModel->checkSufficientBudget($test_price), "Budget should be insufficient to make this purchase(".$test_price.")");
     }
 }
 ?>

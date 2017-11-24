@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class FleetModel extends CSV_Model
 {
-    private $budget = 10000000;
+    private $budget = 10000;
     private $plane_types = null;
 
     // Constructor
@@ -126,6 +126,14 @@ class FleetModel extends CSV_Model
             }
             return in_array($type, $this->plane_types);
         }
+    }
+    
+    /**
+     * Check if the budget is sufficient to make a purchase of certain price
+     * @param type $price price
+     */
+    public function checkSufficientBudget($price){
+        return $this->getBudget() - $this->getGrandTotal() - $price >= 0;
     }
     
     /**
