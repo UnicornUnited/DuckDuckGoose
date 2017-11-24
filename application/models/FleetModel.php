@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class FleetModel extends CSV_Model
 {
     private $budget = 10000000;
+    private $plane_types = null;
 
     // Constructor
     public function __construct()
@@ -109,6 +110,22 @@ class FleetModel extends CSV_Model
             $grandTotal += doubleval($planes[$value->model_id]['price']);
         }
         return $grandTotal;
+    }
+    
+    /**
+     * Check if the given plane type is valid
+     * @param type $type
+     */
+    public function checkPlaneType($type){
+        if($this->plane_types == null){
+            $wackyModel = new WackyModel();
+            $planes = $wackyModel->airplanes();
+            $this->plane_types = array();
+            foreach ($planes as $key => $plane) {
+                $this->plane_types[$plane['id']] = $plane['id'];
+            }
+            return in_array($type, $this->plane_types);
+        }
     }
     
     /**

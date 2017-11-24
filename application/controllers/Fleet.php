@@ -228,11 +228,14 @@ class Fleet extends Application
         // validate away
         if ($this->form_validation->run())
         {
-            $this->load->model('plane');
-            $plane = new Plane();
-            $plane->model_id = $data['model_id'];
-            $flight_id = $this->fleetModel->saveFleet($plane);
-//
+            //business logic checking
+            //is plane type valid?
+            if($this->fleetModel->checkPlaneType($data['model_id'])){
+                $this->load->model('plane');
+                $plane = new Plane();
+                $plane->model_id = $data['model_id'];
+                $flight_id = $this->fleetModel->saveFleet($plane);
+            }
             redirect('/fleet');
         } else
         {
