@@ -32,3 +32,6 @@ application/logs/*
 composer.phar
 composer.exe
 composer.lock
+
+#PHP Unit report files
+/tests/reports/
