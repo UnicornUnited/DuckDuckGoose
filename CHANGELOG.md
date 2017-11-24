@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 ## [3.0.0] - 2017-11-23
 ## Changed
  - Add unit test against business logic on fleet.
+ - Update unit test on flight due to the change of data structure. 
 
 ## [3.0.0] - 2017-11-22
 ## Changed
