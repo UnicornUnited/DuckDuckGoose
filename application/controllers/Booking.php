@@ -113,7 +113,8 @@ class Booking extends Application
             // Each flight is added to options array
             foreach ($nonstops as $flight) {
                 $flightrow = $this->parser->parse('booking_row', (array) $flight, true);
-                $options1[] = array( 'option' => $count++ , 'flightrow' => $flightrow);
+                $flow = $flight['depart'] . ' > ' . $flight['arrive'];
+                $options1[] = array( 'option' => $count++ , 'flow' => $flow, 'flightrow' => $flightrow);
             }
             
             foreach ($options1 as $option) {
