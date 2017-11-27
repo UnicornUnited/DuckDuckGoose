@@ -20,7 +20,6 @@ class BookingTest extends TestCase
         $this->CI = &get_instance();
         $this->CI->load->model('flightModel');
         $this->CI->load->model('flight');
-        $this->CI->load->library('../controllers/booking');
         
         $flight1 = new Flight();
         $flight2 = new Flight();
@@ -46,10 +45,10 @@ class BookingTest extends TestCase
         $flight4->depart_time = "13:00";
         $flight4->arrive_time = "15:00";
         
-        $this->assertTrue($this->booking->checkTime($flight1, $flight4));
-        $this->assertFalse($this->booking->checkTime($flight1, $flight2));
-        $this->assertFalse($this->booking->checkTime($flight1, $flight3));
-        $this->assertFalse($this->booking->checkTime($flight4, $flight2));
+        $this->assertTrue($this->flightModel->checkTime($flight1, $flight4));
+        $this->assertFalse($this->flightModel->checkTime($flight1, $flight2));
+        $this->assertFalse($this->flightModel->checkTime($flight1, $flight3));
+        $this->assertFalse($this->flightModel->checkTime($flight4, $flight2));
     }
 }
 ?>
