@@ -21,10 +21,10 @@ class BookingTest extends TestCase
         $this->CI->load->model('flightModel');
         $this->CI->load->model('flight');
         
-        $flight1 = new Flight();
-        $flight2 = new Flight();
-        $flight3 = new Flight();
-        $flight4 = new Flight();
+        $flight1 = array();
+        $flight2 = array();
+        $flight3 = array();
+        $flight4 = array();
     }
     
     /**
@@ -33,17 +33,17 @@ class BookingTest extends TestCase
      * minutes in between.
      */
     public function testCheckTime() {
-        $flight1->depart_time = "8:00";
-        $flight1->arrive_time = "10:00";
+        $flight1['depart_time'] = "8:00";
+        $flight1['arrive_time'] = "10:00";
         
-        $flight2->depart_time = "9:00";
-        $flight2->arrive_time = "11:00";
+        $flight2['depart_time'] = "9:00";
+        $flight2['arrive_time'] = "11:00";
         
-        $flight3->depart_time = "10:29";
-        $flight3->arrive_time = "11:40";
+        $flight3['depart_time'] = "10:29";
+        $flight3['arrive_time'] = "11:40";
         
-        $flight4->depart_time = "13:00";
-        $flight4->arrive_time = "15:00";
+        $flight4['depart_time'] = "13:00";
+        $flight4['arrive_time'] = "15:00";
         
         $this->assertTrue($this->CI->flightModel->checkTime($flight1, $flight4));
         $this->assertFalse($this->CI->flightModel->checkTime($flight1, $flight2));
