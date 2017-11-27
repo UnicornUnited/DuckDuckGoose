@@ -56,12 +56,22 @@ class Flight extends Entity {
      * hours passed since 0:00 am.
      * giving 8:30 will return 8.5, while giving 13:00 returns 13.0 etc.
      * @param type $time a time format to convert.
-     * @return type double 
+     * @return type double
      */
     public function getHours($time){
         return doubleval(strtotime($time) - strtotime("0:00"))/3600;
     }
-    
+
+    public function getArrive()
+    {
+        return $this->arrive;
+    }
+
+    public function getArriveTime()
+    {
+        return $this->arrive_time;
+    }
+
     /**
      * Sets Flight Id.
      * @param type $value
@@ -108,12 +118,10 @@ class Flight extends Entity {
     /**
      * Sets Arrival Time using 24HR time.
      * @param type $value
+     * @return true or false
      */
     public function setArriveTime($value) {
-        //business logic: no arrival after 22:00
-        if($this->getHours($value) <= 22){
             $this->arrive_time = $value;
-        }
     }
     
     /**

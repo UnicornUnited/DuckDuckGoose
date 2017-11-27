@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class FlightModel extends CSV_Model
 {
-
     // Constructor
     public function __construct()
     {
@@ -28,6 +27,30 @@ class FlightModel extends CSV_Model
         foreach ($records as $key => $record) {
             $resource[$key] = (array)$record;
         }
+        return $resource;
+    }
+
+    /**
+     * Collects all departure/arrival times for the specified airport
+     * id. Can be used to ensure a selected flight won't arrive at the
+     * same time as another scheduled flight.
+     * @param $airport_id
+     */
+    public function getAllArrivalDepartureTimes($airport_id){
+        $records = parent::all();
+        $resource = array();
+        foreach($records as $key => $record){
+            if($record->depart == $airport_id){
+                //print_r($record->depart_time);
+                array_push($resource, $record->depart_time);
+            }
+            if($record->arrive == $airport_id){
+                //print_r($record->arrive_time);
+                array_push($resource, $record->arrive_time);
+            }
+
+        }
+        //print_r($resource);
         return $resource;
     }
     
@@ -137,9 +160,7 @@ class FlightModel extends CSV_Model
                 ['field' => 'depart', 'label' => 'Departure Airport', 'rules' => 'alpha|exact_length[3]'],
                 ['field' => 'depart_time', 'label' => 'Departure Time', 'rules' => 'required|my_func'],
                 ['field' => 'arrive', 'label' => 'Arrival Airport', 'rules' => 'alpha|exact_length[3]'],
-                ['field' => 'arrive_time', 'label' => 'Arrival Time', 'rules' => 'required|my_func'],
             );
         return $config;
     }
-    
 }
