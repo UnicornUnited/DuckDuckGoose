@@ -37,11 +37,11 @@ class FlightModel extends CSV_Model
      * @param type $dep departure airport
      * @param type $des arrival airport
      */
-    public function getFlightsByAirports($departure, $arrival){
+    public function getFlightsByDepart($departure){
         $all = $this->all();
         $flights = array();
         foreach ($all as $flight) {
-            if($flight['depart'] == $departure && $flight['arrive'] == $arrival){
+            if($flight['depart'] == $departure){
                 $flights[$flight['id']] = $flight;
             }
         }

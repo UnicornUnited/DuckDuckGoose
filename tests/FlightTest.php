@@ -45,15 +45,15 @@ class FlightTest extends TestCase
         $last_flights = array();
         //store the flight with latest arrival
         foreach ($flights as $flight) {
-            if(!key_exists($flight['model_id'], $last_flights)){
-                $last_flights[$flight['model_id']] = $flight;
+            if(!key_exists($flight['plane_id'], $last_flights)){
+                $last_flights[$flight['plane_id']] = $flight;
             }
             else{
                 //update the flight with latest arrival
-                $old_time = $this->CI->flight->getHours($last_flights[$flight['model_id']]['arrive_time']);
+                $old_time = $this->CI->flight->getHours($last_flights[$flight['plane_id']]['arrive_time']);
                 $new_time = $this->CI->flight->getHours($flight['arrive_time']);
                 if($new_time > $old_time){
-                    $last_flights[$flight['model_id']] = $flight;
+                    $last_flights[$flight['plane_id']] = $flight;
                 }
             }
         }
