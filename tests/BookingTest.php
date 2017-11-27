@@ -45,10 +45,10 @@ class BookingTest extends TestCase
         $flight4->depart_time = "13:00";
         $flight4->arrive_time = "15:00";
         
-        $this->assertTrue($this->flightModel->checkTime($flight1, $flight4));
-        $this->assertFalse($this->flightModel->checkTime($flight1, $flight2));
-        $this->assertFalse($this->flightModel->checkTime($flight1, $flight3));
-        $this->assertFalse($this->flightModel->checkTime($flight4, $flight2));
+        $this->assertTrue($this->CI->flightModel->checkTime($flight1, $flight4));
+        $this->assertFalse($this->CI->flightModel->checkTime($flight1, $flight2));
+        $this->assertFalse($this->CI->flightModel->checkTime($flight1, $flight3));
+        $this->assertFalse($this->CI->flightModel->checkTime($flight4, $flight2));
     }
 }
 ?>
