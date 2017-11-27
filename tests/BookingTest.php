@@ -20,7 +20,7 @@ class BookingTest extends TestCase
         $this->CI = &get_instance();
         $this->CI->load->model('flightModel');
         $this->CI->load->model('flight');
-        $this->CI->load->controller('booking');
+        $this->CI->load->library('../controllers/booking');
         
         $flight1 = new Flight();
         $flight2 = new Flight();
