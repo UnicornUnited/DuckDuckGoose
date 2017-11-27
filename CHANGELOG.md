@@ -13,6 +13,14 @@ All notable changes to this project will be documented in this file.
 
 # [latest stable version 2.0.0]
 
+## [3.0.0] - 2017-11-26
+## Changed
+ - FlightModel controller to retrieve available flights by specified departure
+ - 
+
+## Added
+ - Views to display booking options: booking_row.php, booking_header.php, booking_option.php
+
 ## [3.0.0] - 2017-11-23
 ## Changed
  - Add unit test against business logic on fleet.
