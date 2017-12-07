@@ -171,7 +171,7 @@ class FlightModel extends CSV_Model
      * @param string $dest
      * @return array
      */
-        public function retrieveFlights($potential, $dest){
+    public function retrieveFlights($potential, $dest){
         $temp = array();
         $result = array();
         foreach ($potential as $flight) {
