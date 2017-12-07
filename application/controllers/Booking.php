@@ -33,9 +33,8 @@ class Booking extends Application
      */
     public function availableFlights()
     {        
-        $temp1 = array();
-        $temp2 = array();
-        $temp3 = array();
+        $temp = array();
+        $result = array();
         $nonstops = array();
         $onestops = array();
         $twostops = array();
@@ -54,39 +53,68 @@ class Booking extends Application
             }
             else 
             {
-                $temp1[][0]= $flight;
+                $temp[][0]= $flight;
             }
         }
+        
+        $result = $this->retrieveFlights($temp, $dest);
+        
+        $onestops = $result['flights'];
+        $temp = $result['potential'];
         
         //Get all flights that have 1 stopover
-        foreach ($temp1 as $flight) {
-            $temp2 = $this->flightModel->getFlightsByDepart($flight[0]['arrive']);
-            foreach ($temp2 as $trip) {
-                if ($trip['arrive'] == $dest && $this->checkTime($flight[0], $trip)) {
-                    $flight[1] = $trip;
-                    $onestops[] = $flight;
-                }
-                else if ($this->checkTime($flight[0], $trip)) 
-                {
-                    $flight[1] = $trip;
-                    $temp3[] = $flight;
-                                      
-                }
-            }
-        }
+//        foreach ($temp1 as $flight) {
+//            $temp2 = $this->flightModel->getFlightsByDepart($flight[0]['arrive']);
+//            foreach ($temp2 as $trip) {
+//                if ($trip['arrive'] == $dest && $this->checkTime($flight[0], $trip)) {
+//                    $flight[1] = $trip;
+//                    $onestops[] = $flight;
+//                }
+//                else if ($this->checkTime($flight[0], $trip)) 
+//                {
+//                    $flight[1] = $trip;
+//                    $temp3[] = $flight;
+//                                      
+//                }
+//            }
+//        }
         
         //Get all flights that have 2 stopover
-        foreach ($temp3 as $flight) {
-            $temp2 = $this->flightModel->getFlightsByDepart($flight[1]['arrive']);
-            foreach ($temp2 as $trip) {
-                if ($trip['arrive'] == $dest && $this->checkTime($flight[1], $trip)) {
-                    $flight[2] = $trip;
-                    $twostops[] = $flight;
-                }
-            }
-        }
+//        foreach ($temp3 as $flight) {
+//            $temp2 = $this->flightModel->getFlightsByDepart($flight[1]['arrive']);
+//            foreach ($temp2 as $trip) {
+//                if ($trip['arrive'] == $dest && $this->checkTime($flight[1], $trip)) {
+//                    $flight[2] = $trip;
+//                    $twostops[] = $flight;
+//                }
+//            }
+//        }
+        
+        $result = $this->retrieveFlights($temp,$dest);
+        $twostops = $result['flights'];
         
         $this->showBooking($nonstops,$onestops, $twostops);
+    }
+    
+    public function retrieveFlights($potential, $dest){
+        $temp = array();
+        $result = array();
+        foreach ($potential as $flight) {
+            $size = count($flight);
+            $retrieved = $this->flightModel->getFlightsByDepart($flight[$size - 1]['arrive']);
+            foreach ($retrieved as $trip) {
+                if ($trip['arrive'] == $dest && $this->checkTime($flight[$size - 1], $trip)) {
+                    $flight[$size] = $trip;
+                    $result[] = $flight;
+                } else if ($this->checkTime($flight[$size - 1], $trip)) 
+                {
+                    $flight[$size] = $trip;
+                    $temp[] = $flight;               
+                }
+            }            
+        }
+        
+        return array('potential' => $temp, 'flights' => $result);
     }
     
     /**
@@ -113,7 +141,8 @@ class Booking extends Application
             // Each flight is added to options array
             foreach ($nonstops as $flight) {
                 $flightrow = $this->parser->parse('booking_row', (array) $flight, true);
-                $options1[] = array( 'option' => $count++ , 'flightrow' => $flightrow);
+                $flow = $flight['depart'] . ' > ' . $flight['arrive'];
+                $options1[] = array( 'option' => $count++ , 'flow' => $flow, 'flightrow' => $flightrow);
             }
             
             foreach ($options1 as $option) {
