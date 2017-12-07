@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class FlightModel extends CSV_Model
 {
-
     // Constructor
     public function __construct()
     {
@@ -16,7 +15,7 @@ class FlightModel extends CSV_Model
      * @return string
      */
     private function generateNewId(){
-        return 'G' . (1000 + 10 * $this->size());
+        return 'G' . (1000 + 10 * ($this->size() + 1));
     }
     
     /**
@@ -30,6 +29,30 @@ class FlightModel extends CSV_Model
         }
         return $resource;
     }
+
+    /**
+     * Collects all departure/arrival times for the specified airport
+     * id. Can be used to ensure a selected flight won't arrive at the
+     * same time as another scheduled flight.
+     * @param $airport_id
+     */
+    public function getAllArrivalDepartureTimes($airport_id){
+        $records = parent::all();
+        $resource = array();
+        foreach($records as $key => $record){
+            if($record->depart == $airport_id){
+                //print_r($record->depart_time);
+                array_push($resource, $record->depart_time);
+            }
+            if($record->arrive == $airport_id){
+                //print_r($record->arrive_time);
+                array_push($resource, $record->arrive_time);
+            }
+
+        }
+        //print_r($resource);
+        return $resource;
+    }
     
     /**
      * Get the flights that depart from and arrive to airports specified by
@@ -37,11 +60,27 @@ class FlightModel extends CSV_Model
      * @param type $dep departure airport
      * @param type $des arrival airport
      */
-    public function getFlightsByAirports($departure, $arrival){
+    public function getFlightsByDepart($departure){
         $all = $this->all();
         $flights = array();
         foreach ($all as $flight) {
-            if($flight['depart'] == $departure && $flight['arrive'] == $arrival){
+            if($flight['depart'] == $departure){
+                $flights[$flight['id']] = $flight;
+            }
+        }
+        return $flights;
+    }
+    
+    /**
+     * Get the flights that a plane is assigned to
+     * the user.
+     * @param type $plane_id plane id
+     */
+    public function getFlightsByPlane($plane_id){
+        $all = $this->all();
+        $flights = array();
+        foreach ($all as $flight) {
+            if($flight['plane_id'] == $plane_id){
                 $flights[$flight['id']] = $flight;
             }
         }
@@ -121,9 +160,66 @@ class FlightModel extends CSV_Model
                 ['field' => 'depart', 'label' => 'Departure Airport', 'rules' => 'alpha|exact_length[3]'],
                 ['field' => 'depart_time', 'label' => 'Departure Time', 'rules' => 'required|my_func'],
                 ['field' => 'arrive', 'label' => 'Arrival Airport', 'rules' => 'alpha|exact_length[3]'],
-                ['field' => 'arrive_time', 'label' => 'Arrival Time', 'rules' => 'required|my_func'],
             );
         return $config;
     }
     
+    /**
+     * Retrieves flights from a particular airport that match the criteria 
+     * that the user passes in to book flights.
+     * @param array $potential
+     * @param string $dest
+     * @return array
+     */
+    public function retrieveFlights($potential, $dest){
+        $temp = array();
+        $result = array();
+        foreach ($potential as $flight) {
+            $size = count($flight);
+            $retrieved = $this->getFlightsByDepart($flight[$size - 1]['arrive']);
+            foreach ($retrieved as $trip) {
+                if ($trip['arrive'] == $dest && $this->checkTime($flight[$size - 1], $trip)) {
+                    $flight[$size] = $trip;
+                    $result[] = $flight;
+                } else if ($this->checkTime($flight[$size - 1], $trip)) 
+                {
+                    $flight[$size] = $trip;
+                    $temp[] = $flight;               
+                }
+            }            
+        }
+        
+        return array('potential' => $temp, 'flights' => $result);
+    }
+    
+    /**
+     * Validate the business logic: 
+     * 1. A stopover flight must not depart before the initial flight
+     * 2. There must be 30 mins between stopover flights
+     * @param flight $f1
+     * @param flight $f2
+     * @return boolean
+     */
+    public function checkTime($f1, $f2) {
+        if ($this->getHours($f2['depart_time']) < $this->getHours($f1['arrive_time'])) {
+            return false;
+        }
+        
+        if (($this->getHours($f2['depart_time']) - $this->getHours($f1['arrive_time'])) < .5) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Convert and return a decimal representing the given time in how many
+     * hours passed since 0:00 am.
+     * giving 8:30 will return 8.5, while giving 13:00 returns 13.0 etc.
+     * @param type $time a time format to convert.
+     * @return type double
+     */
+    public function getHours($time){
+        return doubleval(strtotime($time) - strtotime("0:00"))/3600;
+    }
 }

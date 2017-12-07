@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Flight extends Entity {
     protected $id = NULL;
-    protected $model_id = NULL;
+    protected $plane_id = NULL;
     protected $depart = NULL;
     protected $depart_time = NULL;
     protected $arrive = NULL;
@@ -26,8 +26,8 @@ class Flight extends Entity {
         $this->id = $data['id'];
         if($data['id'] !== NULL && $this->id === NULL) $_initialized = false;
         
-        $this->model_id = $data['model_id'];
-        if($data['model_id'] !== NULL && $this->model_id === NULL) $_initialized = false;
+        $this->plane_id = $data['plane_id'];
+        if($data['plane_id'] !== NULL && $this->plane_id === NULL) $_initialized = false;
         
         $this->depart = $data['depart'];
         if($data['depart'] !== NULL && $this->depart === NULL) $_initialized = false;
@@ -51,10 +51,27 @@ class Flight extends Entity {
         return  $this->_initialized;
     }
     
+    /**
+     * Convert and return a decimal representing the given time in how many
+     * hours passed since 0:00 am.
+     * giving 8:30 will return 8.5, while giving 13:00 returns 13.0 etc.
+     * @param type $time a time format to convert.
+     * @return type double
+     */
     public function getHours($time){
-        return (strtotime($time) - strtotime("0:00"))/3600;
+        return doubleval(strtotime($time) - strtotime("0:00"))/3600;
     }
-    
+
+    public function getArrive()
+    {
+        return $this->arrive;
+    }
+
+    public function getArriveTime()
+    {
+        return $this->arrive_time;
+    }
+
     /**
      * Sets Flight Id.
      * @param type $value
@@ -67,8 +84,8 @@ class Flight extends Entity {
      * Sets Plane from fleet using ID.
      * @param type $value
      */
-    public function setModelId($value) {
-        $this->model_id = $value;
+    public function setPlanelId($value) {
+        $this->plane_id = $value;
     }
     
     /**
@@ -101,12 +118,10 @@ class Flight extends Entity {
     /**
      * Sets Arrival Time using 24HR time.
      * @param type $value
+     * @return true or false
      */
     public function setArriveTime($value) {
-        //business logic: no arrival after 22:00
-        if($this->getHours($value) <= 22){
             $this->arrive_time = $value;
-        }
     }
     
     /**
@@ -115,7 +130,7 @@ class Flight extends Entity {
     public function toArray(){
         return array(
             'id'                    => $this->id,
-            'model_id'                => $this->model_id,
+            'plane_id'                => $this->plane_id,
             'depart'                => $this->depart,
             'depart_time'           => $this->depart_time,
             'arrive'               => $this->arrive,

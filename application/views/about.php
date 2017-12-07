@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="jumbotron">
-        <h1>About Us</h1>
+        <h2><span class="glyphicon glyphicon-plane"></span> About Us</h2>
         <p>Goose Airlines is this amazing, but very fictitious, airline that embraces the world by keeping it connected. Here
             at Goose Airlines we pride ourselves for having amazing staff that know exactly what you need to make your fictitious
             flight the most comfortable flight you have ever had.</p>

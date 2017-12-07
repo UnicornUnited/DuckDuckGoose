@@ -11,8 +11,34 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-# [latest stable version 1.0.0]
+# [latest stable version 2.0.0]
 
+## [3.0.0] - 2017-11-26
+## Changed
+ - FlightModel controller to retrieve available flights by specified departure
+ - 
+
+## Added
+ - Views to display booking options: booking_row.php, booking_header.php, booking_option.php
+
+## [3.0.0] - 2017-11-23
+## Changed
+ - Add unit test against business logic on fleet.
+ - Update unit test on flight due to the change of data structure.
+ - Add checking for sufficient budget on purchase.
+
+## [3.0.0] - 2017-11-22
+## Changed
+ - Display more information on fleet page and plane page.
+ - Link fleet and plane pages.
+ - Enable adding new plane to fleet.
+ - Fixed a few view and controller bugs related to fleet feature.
+ - Updated documentation for a few newly added functions.
+
+## [3.0.0] - 2017-11-21
+## Changed
+ - Views beautification.
+ - Update Fleet and Flight due to the change of model_id in data source.
 
 ## [2.0.0] - 2017-11-12
 ## Added 
