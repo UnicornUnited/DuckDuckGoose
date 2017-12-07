@@ -33,9 +33,8 @@ class Booking extends Application
      */
     public function availableFlights()
     {        
-        $temp1 = array();
-        $temp2 = array();
-        $temp3 = array();
+        $temp = array();
+        $result = array();
         $nonstops = array();
         $onestops = array();
         $twostops = array();
@@ -45,6 +44,7 @@ class Booking extends Application
         
         //Load the flights that match our criteria
         $this->load->model('flightModel');
+        $this->load->model('flight');
         $flights = $this->flightModel->getFlightsByDepart($depart);
         
         //Get all flights that start at dept and end at arrive
@@ -54,37 +54,17 @@ class Booking extends Application
             }
             else 
             {
-                $temp1[][0]= $flight;
+                $temp[][0]= $flight;
             }
         }
         
-        //Get all flights that have 1 stopover
-        foreach ($temp1 as $flight) {
-            $temp2 = $this->flightModel->getFlightsByDepart($flight[0]['arrive']);
-            foreach ($temp2 as $trip) {
-                if ($trip['arrive'] == $dest && $this->checkTime($flight[0], $trip)) {
-                    $flight[1] = $trip;
-                    $onestops[] = $flight;
-                }
-                else if ($this->checkTime($flight[0], $trip)) 
-                {
-                    $flight[1] = $trip;
-                    $temp3[] = $flight;
-                                      
-                }
-            }
-        }
+        $result = $this->flightModel->retrieveFlights($temp, $dest);
         
-        //Get all flights that have 2 stopover
-        foreach ($temp3 as $flight) {
-            $temp2 = $this->flightModel->getFlightsByDepart($flight[1]['arrive']);
-            foreach ($temp2 as $trip) {
-                if ($trip['arrive'] == $dest && $this->checkTime($flight[1], $trip)) {
-                    $flight[2] = $trip;
-                    $twostops[] = $flight;
-                }
-            }
-        }
+        $onestops = $result['flights'];
+        $temp = $result['potential'];
+        
+        $result = $this->flightModel->retrieveFlights($temp,$dest);
+        $twostops = $result['flights'];
         
         $this->showBooking($nonstops,$onestops, $twostops);
     }
@@ -113,7 +93,8 @@ class Booking extends Application
             // Each flight is added to options array
             foreach ($nonstops as $flight) {
                 $flightrow = $this->parser->parse('booking_row', (array) $flight, true);
-                $options1[] = array( 'option' => $count++ , 'flightrow' => $flightrow);
+                $flow = $flight['depart'] . ' > ' . $flight['arrive'];
+                $options1[] = array( 'option' => $count++ , 'flow' => $flow, 'flightrow' => $flightrow);
             }
             
             foreach ($options1 as $option) {
@@ -182,25 +163,5 @@ class Booking extends Application
         $this->data['availableflights'] = $result;
         $this->data['pagebody'] = 'booking_display';
         $this->render();
-    }
-    
-    //Validate the business logic: 
-    //1. A stopover flight must not depart before the initial flight
-    //2. There must be 30 mins between stopover flights
-    public function checkTime($f1, $f2) {
-        if ($this->getHours($f2['depart_time']) < $this->getHours($f1['arrive_time'])) {
-            return false;
-        }
-        
-        if (($this->getHours($f2['depart_time']) - $this->getHours($f1['arrive_time'])) < .5) {
-            return false;
-        }
-        
-        return true;
-    }
-    
-    //Get a time from a string
-    public function getHours($time){
-        return doubleval(strtotime($time) - strtotime("0:00"))/3600;
     }
 }
