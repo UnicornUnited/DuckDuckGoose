@@ -163,4 +163,63 @@ class FlightModel extends CSV_Model
             );
         return $config;
     }
+    
+    /**
+     * Retrieves flights from a particular airport that match the criteria 
+     * that the user passes in to book flights.
+     * @param array $potential
+     * @param string $dest
+     * @return array
+     */
+    public function retrieveFlights($potential, $dest){
+        $temp = array();
+        $result = array();
+        foreach ($potential as $flight) {
+            $size = count($flight);
+            $retrieved = $this->getFlightsByDepart($flight[$size - 1]['arrive']);
+            foreach ($retrieved as $trip) {
+                if ($trip['arrive'] == $dest && $this->checkTime($flight[$size - 1], $trip)) {
+                    $flight[$size] = $trip;
+                    $result[] = $flight;
+                } else if ($this->checkTime($flight[$size - 1], $trip)) 
+                {
+                    $flight[$size] = $trip;
+                    $temp[] = $flight;               
+                }
+            }            
+        }
+        
+        return array('potential' => $temp, 'flights' => $result);
+    }
+    
+    /**
+     * Validate the business logic: 
+     * 1. A stopover flight must not depart before the initial flight
+     * 2. There must be 30 mins between stopover flights
+     * @param flight $f1
+     * @param flight $f2
+     * @return boolean
+     */
+    public function checkTime($f1, $f2) {
+        if ($this->getHours($f2['depart_time']) < $this->getHours($f1['arrive_time'])) {
+            return false;
+        }
+        
+        if (($this->getHours($f2['depart_time']) - $this->getHours($f1['arrive_time'])) < .5) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Convert and return a decimal representing the given time in how many
+     * hours passed since 0:00 am.
+     * giving 8:30 will return 8.5, while giving 13:00 returns 13.0 etc.
+     * @param type $time a time format to convert.
+     * @return type double
+     */
+    public function getHours($time){
+        return doubleval(strtotime($time) - strtotime("0:00"))/3600;
+    }
 }
